@@ -120,7 +120,8 @@ spec:
 ## [optional] create keycloak route
 
 ```
-kubectl apply -f TEMP/virtualservices/keycloak-vs.yaml
+kubectl apply -f virtualservices/canvas-keycloak-vs.yaml
+kubectl apply -f virtualservices/canvas-vault-hc-vs.yaml
 ```
 
 

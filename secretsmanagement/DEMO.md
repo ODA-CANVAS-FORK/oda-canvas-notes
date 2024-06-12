@@ -44,6 +44,7 @@ helm upgrade --install demo-a -n components --create-namespace feature-definitio
 
 ### show HashiCorp Vault GUI
 
+https://canvas-vault-hc.ihc-dt.cluster-3.de
 
 ### conenct to prodcatapi shell 
 
