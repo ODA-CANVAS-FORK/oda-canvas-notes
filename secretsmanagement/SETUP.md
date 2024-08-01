@@ -95,7 +95,7 @@ kubectl patch gateway/component-gateway -n components --type json -p '[{"op": "r
 kubectl patch gateway/component-gateway -n components --type json -p '[{"op": "add","path": "/spec/servers/1","value": {"hosts": ["*.ihc-dt.cluster-3.de"],"port": {"name": "https","number": 443,"protocol": "HTTPS"},"tls": {"credentialName": "wc-ihc-dt-cluster-3-de-tls","mode": "SIMPLE"}}}]'
 ```
 
-or manually
+or manually (Windows)
 
 ```
 kubectl edit gateway -n components component-gateway
