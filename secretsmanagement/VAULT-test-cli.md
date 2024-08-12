@@ -284,3 +284,35 @@ $ curl -s -H "X-Vault-Request: true" -H "X-Vault-Token: $ROOT_TOKEN" https://can
         }
 ```
 
+## Get Secrets
+
+```
+$ vault kv get kv-sman-components-alice-productcatalogmanagement/sidecar
+
+	========================= Secret Path =========================
+	kv-sman-components-alice-productcatalogmanagement/data/sidecar
+	
+	======= Metadata =======
+	Key                Value
+	---                -----
+	created_time       2024-08-12T12:01:02.895686151Z
+	custom_metadata    <nil>
+	deletion_time      n/a
+	destroyed          false
+	version            1
+	
+	====== Data ======
+	Key         Value
+	---         -----
+	password    abc123
+```
+
+as curl:
+
+```
+$ curl -s -H "X-Vault-Request: true" -H "X-Vault-Token: $ROOT_TOKEN" https://canvas-vault-hc.ihc-dt.cluster-3.de/v1/kv-sman-components-alice-productcatalogmanagement/data/sidecar | jq '.data.data'
+
+  {
+    "password": "abc123"
+  }
+```
