@@ -166,7 +166,7 @@ $ vault read auth/jwt-k8s-sman/role/sman-components-alice-productcatalogmanageme
 	verbose_oidc_logging       false
 ```
 
-as curl:
+as cURL:
 
 ```
 $ curl -s -H "X-Vault-Request: true" -H "X-Vault-Token: $ROOT_TOKEN" https://canvas-vault-hc.ihc-dt.cluster-3.de/v1/auth/jwt-k8s-sman/role/sman-components-alice-productcatalogmanagement-role
@@ -245,7 +245,7 @@ $ vault policy list
   root
 ```
 
-as curl:
+as cURL:
 
 ```
 $ curl -s -H "X-Vault-Request: true" -H "X-Vault-Token: $ROOT_TOKEN" https://canvas-vault-hc.ihc-dt.cluster-3.de/v1/sys/policies/acl?list=true | jq -r '.data.keys[]'
@@ -265,7 +265,7 @@ $ vault policy read sman-components-alice-productcatalogmanagement-policy
         }
 ```
 
-as curl
+as cURL
 
 ```
 $ curl -s -H "X-Vault-Request: true" -H "X-Vault-Token: $ROOT_TOKEN" https://canvas-vault-hc.ihc-dt.cluster-3.de/v1/sys/policies/acl/sman-components-alice-productcatalogmanagement-policy | jq '.data'
@@ -283,6 +283,49 @@ $ curl -s -H "X-Vault-Request: true" -H "X-Vault-Token: $ROOT_TOKEN" https://can
           capabilities = ["create", "read", "update", "delete", "patch"]   # do not support "list" for security reasons
         }
 ```
+
+## Set Secrets
+
+```
+$ vault kv put -output-curl-string kv-sman-components-alice-productcatalogmanagement/sidecar password=abc123
+
+	========================= Secret Path =========================
+	kv-sman-components-alice-productcatalogmanagement/data/sidecar
+	
+	======= Metadata =======
+	Key                Value
+	---                -----
+	created_time       2024-08-12T12:12:37.311704644Z
+	custom_metadata    <nil>
+	deletion_time      n/a
+	destroyed          false
+	version            3
+```
+
+as cURL:
+
+```
+$ curl -s -X PUT -H "X-Vault-Request: true" -H "X-Vault-Token: $ROOT_TOKEN" -d '{"data":{"test":"123def"},"options":{}}' https://canvas-vault-hc.ihc-dt.cluster-3.de/v1/kv-sman
+-components-alice-productcatalogmanagement/data/sidecar | jq .
+
+	{
+	  "request_id": "6e1828a2-d7e9-247a-7cfa-2601adddf63b",
+	  "lease_id": "",
+	  "renewable": false,
+	  "lease_duration": 0,
+	  "data": {
+	    "created_time": "2024-08-12T12:14:10.927308256Z",
+	    "custom_metadata": null,
+	    "deletion_time": "",
+	    "destroyed": false,
+	    "version": 6
+	  },
+	  "wrap_info": null,
+	  "warnings": null,
+	  "auth": null
+	}
+```
+
 
 ## Get Secrets
 
@@ -307,7 +350,7 @@ $ vault kv get kv-sman-components-alice-productcatalogmanagement/sidecar
 	password    abc123
 ```
 
-as curl:
+as cURL:
 
 ```
 $ curl -s -H "X-Vault-Request: true" -H "X-Vault-Token: $ROOT_TOKEN" https://canvas-vault-hc.ihc-dt.cluster-3.de/v1/kv-sman-components-alice-productcatalogmanagement/data/sidecar | jq '.data.data'
