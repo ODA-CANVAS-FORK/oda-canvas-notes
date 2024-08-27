@@ -16,7 +16,7 @@ kubectl config set-context --current --namespace=components
 ### open CMD with Component-Operator logfile
 
 ```
-kubectl logs -n canvas deployment/oda-controller-ingress -f
+kubectl logs -n canvas deployment/oda-controller -f
 ```
 
 ### open CMD with SecretsManagement-Operator logfile

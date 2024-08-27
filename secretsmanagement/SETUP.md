@@ -1,41 +1,5 @@
 # Build
 
-## Build Component Operator
-
-```
-cd ~
-cd git/oda-canvas-component-vault-ODAA26
-git pull
-./TEMP/build/build-component-operator.sh
-```
-
-## Build SecretsManagement Operator
-
-```
-cd ~
-cd git/oda-canvas-component-vault-ODAA26
-git pull
-./TEMP/build/build-secretsmanagement-operator.sh
-```
-
-
-## Build SecretsManagement Sidecar
-
-```
-cd ~
-cd git/oda-canvas-component-vault-ODAA26
-git pull
-./TEMP/build/build-secretsmanagement-sidecar.sh
-```
-
-## Build Code-Server with Helm und Node
-
-```
-cd ~
-cd git/oda-canvas-component-vault-ODAA26
-git pull
-./TEMP/build/build-code-server-with-helm-and-node.sh
-```
 
 # Install
 
@@ -72,9 +36,6 @@ cd ../..
 helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP
 ```
 
-```
-helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP  --set=controller.configmap.loglevel=20  --set=controller.deployment.imagePullPolicy=Always --set=controller.deployment.compconImage=mtr.devops.telekom.de/magenta_canvas/public:component-istio-controller-0.4.2-sman --set=secretsmanagement-operator.logLevel=20 --set=secretsmanagement-operator.image=mtr.devops.telekom.de/magenta_canvas/public:secretsmanagement-operator-0.1.0-rc --set=secretsmanagement-operator.sidecarImage=mtr.devops.telekom.de/magenta_canvas/public:secretsmanagement-sidecar-0.1.0-rc
-```
 
 ## patch api operator
 
@@ -123,6 +84,34 @@ spec:
 ```
 kubectl apply -f virtualservices/canvas-keycloak-vs.yaml
 kubectl apply -f virtualservices/canvas-vault-hc-vs.yaml
+```
+
+## [optional] alternative 
+
+```
+cat <<EOF | kubectl apply -f -
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  labels:
+    app: canvas-vault-hc
+  name: canvas-vault-hc-vs
+  namespace: canvas
+spec:
+  gateways:
+  - components/component-gateway
+  hosts:
+  - canvas-vault-hc.ihc-dt.cluster-3.de
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: canvas-vault-hc.canvas-vault.svc.cluster.local
+        port:
+          number: 8200
+EOF
 ```
 
 
