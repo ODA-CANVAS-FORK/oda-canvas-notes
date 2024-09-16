@@ -41,7 +41,6 @@ helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --s
 
 ```
 kubectl patch configmap/canvas-controller-configmap -n canvas --type merge -p "{\"data\":{\"APIOPERATORISTIO_PUBLICHOSTNAME\":\"components.ihc-dt.cluster-3.de\"}}"
-#kubectl rollout restart deployment -n canvas oda-controller-ingress   # has this changed?
 kubectl rollout restart deployment -n canvas oda-controller
 ```
 
