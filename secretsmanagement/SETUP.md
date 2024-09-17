@@ -1,32 +1,5 @@
 # Build
 
-## Build Component Operator
-
-```
-cd ~
-cd git/oda-canvas-component-vault-ODAA26
-git pull
-./TEMP/build/build-component-operator.sh
-```
-
-## Build SecretsManagement Operator
-
-```
-cd ~
-cd git/oda-canvas-component-vault-ODAA26
-git pull
-./TEMP/build/build-secretsmanagement-operator.sh
-```
-
-
-## Build SecretsManagement Sidecar
-
-```
-cd ~
-cd git/oda-canvas-component-vault-ODAA26
-git pull
-./TEMP/build/build-secretsmanagement-sidecar.sh
-```
 
 ## Build Code-Server with Helm und Node
 
@@ -50,31 +23,23 @@ helm repo update
 ## deploy canvas from local filesystem 
 
 ```
-cd ~/git/oda-canvas-component-vault-ODAA26
+cd ~/git/oda-canvas
 
 cd charts/cert-manager-init
-helm dependency update
-helm dependency build
+helm dependency build --skip-refresh
 cd ../../charts/controller
-helm dependency update
-helm dependency build
+helm dependency build --skip-refresh
 cd ../../charts/canvas-vault
-helm dependency update
-helm dependency build
+helm dependency build --skip-refresh
 cd ../../charts/secretsmanagement-operator
-helm dependency update
-helm dependency build
+helm dependency build --skip-refresh
 cd ../../charts/canvas-oda
-helm dependency update
-helm dependency build
+helm dependency build --skip-refresh
 cd ../..
 
-helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP
+helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set dependentapi-simple-operator.serviceInventoryAPI.serverUrl=https://canvas-info.ihc-dt.cluster-3.de/tmf-api/serviceInventoryManagement/v5
 ```
 
-```
-helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP  --set=controller.configmap.loglevel=20  --set=controller.deployment.imagePullPolicy=Always --set=controller.deployment.compconImage=mtr.devops.telekom.de/magenta_canvas/public:component-istio-controller-0.4.2-sman --set=secretsmanagement-operator.logLevel=20 --set=secretsmanagement-operator.image=mtr.devops.telekom.de/magenta_canvas/public:secretsmanagement-operator-0.1.0-rc --set=secretsmanagement-operator.sidecarImage=mtr.devops.telekom.de/magenta_canvas/public:secretsmanagement-sidecar-0.1.0-rc
-```
 
 ## patch api operator
 
