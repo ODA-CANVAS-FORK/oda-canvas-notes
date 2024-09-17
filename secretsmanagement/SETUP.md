@@ -1,15 +1,6 @@
 # Build
 
 
-## Build Code-Server with Helm und Node
-
-```
-cd ~
-cd git/oda-canvas-component-vault-ODAA26
-git pull
-./TEMP/build/build-code-server-with-helm-and-node.sh
-```
-
 # Install
 
 ## define repos
@@ -45,7 +36,6 @@ helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --s
 
 ```
 kubectl patch configmap/canvas-controller-configmap -n canvas --type merge -p "{\"data\":{\"APIOPERATORISTIO_PUBLICHOSTNAME\":\"components.ihc-dt.cluster-3.de\"}}"
-#kubectl rollout restart deployment -n canvas oda-controller-ingress   # has this changed?
 kubectl rollout restart deployment -n canvas oda-controller
 ```
 
@@ -60,7 +50,7 @@ kubectl patch gateway/component-gateway -n components --type json -p '[{"op": "r
 kubectl patch gateway/component-gateway -n components --type json -p '[{"op": "add","path": "/spec/servers/1","value": {"hosts": ["*.ihc-dt.cluster-3.de"],"port": {"name": "https","number": 443,"protocol": "HTTPS"},"tls": {"credentialName": "wc-ihc-dt-cluster-3-de-tls","mode": "SIMPLE"}}}]'
 ```
 
-or manually
+or manually (Windows)
 
 ```
 kubectl edit gateway -n components component-gateway
@@ -88,6 +78,34 @@ spec:
 ```
 kubectl apply -f virtualservices/canvas-keycloak-vs.yaml
 kubectl apply -f virtualservices/canvas-vault-hc-vs.yaml
+```
+
+## [optional] alternative 
+
+```
+cat <<EOF | kubectl apply -f -
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  labels:
+    app: canvas-vault-hc
+  name: canvas-vault-hc-vs
+  namespace: canvas
+spec:
+  gateways:
+  - components/component-gateway
+  hosts:
+  - canvas-vault-hc.ihc-dt.cluster-3.de
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: canvas-vault-hc.canvas-vault.svc.cluster.local
+        port:
+          number: 8200
+EOF
 ```
 
 

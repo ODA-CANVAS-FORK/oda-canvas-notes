@@ -26,7 +26,8 @@ git clone -b odaa-26 https://github.com/ODA-CANVAS-FORK/oda-canvas-component-vau
 ## install npm packages
 
 ```
-cd ~/git/oda-canvas-component-vault/feature-definition-and-test-kit
+cd ~/git/oda-canvas-component-vault
+cd feature-definition-and-test-kit
 
 cd identity-manager-utils-keycloak
 npm install
@@ -46,7 +47,7 @@ export KEYCLOAK_PASSWORD=adpass
 export KEYCLOAK_BASE_URL=http://canvas-keycloak.canvas.svc.cluster.local:8083/auth/ 
 export KEYCLOAK_REALM=myrealm
 
-export CUCUMBER_PUBLISH_TOKEN=c98985ee-d612-48db-9e21-12c41e84a639  
+export CUCUMBER_PUBLISH_TOKEN=c98985ee-d612-48db-9e21-12c41e84a639
 
 npm start
 ```
