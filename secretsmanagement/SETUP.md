@@ -17,15 +17,16 @@ helm repo update
 cd ~/git/oda-canvas
 
 cd charts/cert-manager-init
-helm dependency build --skip-refresh
+#helm dependency build --skip-refresh
+helm dependency update --skip-refresh
 cd ../../charts/controller
-helm dependency build --skip-refresh
+helm dependency update --skip-refresh
 cd ../../charts/canvas-vault
-helm dependency build --skip-refresh
+helm dependency update --skip-refresh
 cd ../../charts/secretsmanagement-operator
-helm dependency build --skip-refresh
+helm dependency update --skip-refresh
 cd ../../charts/canvas-oda
-helm dependency build --skip-refresh
+helm dependency update --skip-refresh
 cd ../..
 
 helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set dependentapi-simple-operator.serviceInventoryAPI.serverUrl=https://canvas-info.ihc-dt.cluster-3.de/tmf-api/serviceInventoryManagement/v5
