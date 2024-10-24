@@ -39,7 +39,7 @@ Explain what will be done next.
 ### deploy demo-a
 
 ```
-helm upgrade --install demo-a -n components --create-namespace feature-definition-and-test-kit/testData/productcatalog-v1beta3-sman
+helm upgrade --install demo-a -n components --create-namespace feature-definition-and-test-kit/testData/productcatalog-v1beta4-sman
 ```
 
 ### show HashiCorp Vault GUI
