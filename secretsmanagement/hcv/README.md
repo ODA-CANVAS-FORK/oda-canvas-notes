@@ -106,13 +106,13 @@ fi
 ## unseal
 
 ```
-$ vault operate unseal PVIKuA3+06CygnfeMBbh/YbjzHaqJp6QFoNBF3NrZkE=
+$ vault operate unseal PVIK...rZkE=
 ```
 
 ```
 export VAULT_ADDR=https://hcv.ihc-dt.cluster-3.de
-export VAULT_TOKEN=hvs.yvXB8bAprgfu8WqkmeYZKcqa
-export UNSEAL_KEY1=PVIKuA3+06CygnfeMBbh/YbjzHaqJp6QFoNBF3NrZkE=
+export VAULT_TOKEN=hvs.yvXB...Kcqa
+export UNSEAL_KEY1=PVIK...rZkE=
 curl -X PUT -H "X-Vault-Request: true" -d "{\"key\":\"$UNSEAL_KEY1\",\"reset\":false,\"migrate\":false}" $VAULT_ADDR/v1/sys/unseal
 ```
 
@@ -120,7 +120,7 @@ curl -X PUT -H "X-Vault-Request: true" -d "{\"key\":\"$UNSEAL_KEY1\",\"reset\":f
 
 ```
 curl -X PUT -H "X-Vault-Request: true" -H "X-Vault-Token: $VAULT_TOKEN" -d "{\"key\":\"$UNSEAL_KEY1\",\"reset\":false,\"migrate\":false}" $VAULT_ADDR/v1/sys/unseal
-$ curl  -H "X-Vault-Token: hvs.yvXB8bAprgfu8WqkmeYZKcqa" -H "X-Vault-Request: true"  https://hcv.ihc-dt.cluster-3.de/v1/sys/seal-status
+$ curl  -H "X-Vault-Token: hvs.yvXB...Kcqa" -H "X-Vault-Request: true"  https://hcv.ihc-dt.cluster-3.de/v1/sys/seal-status
 ```
  
 ```
