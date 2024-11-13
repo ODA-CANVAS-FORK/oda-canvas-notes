@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  labels:
+    app: hcv
+  name: hcv-vs
+  namespace: hcv
+spec:
+  gateways:
+  - components/component-gateway
+  hosts:
+  - hcv.ihc-dt.cluster-3.de
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: hcv-vault.hcv.svc.cluster.local
+        port:
+          number: 8200

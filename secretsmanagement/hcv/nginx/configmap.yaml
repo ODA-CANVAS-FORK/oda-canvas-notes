@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-m1
+  namespace: canvas-vault-landing-page-init-cm
+data:
+  init.sh: |
+    #!/bin/sh
+    cat <<EOF | envsubst > /usr/share/nginx/html/index.html
+    <HTML>
+      <HEAD><TITLE>Vault (Token-Page)</TITLE></HEAD>
+      <BODY>
+        <H1>Vault (token page)</H1>
+        <p>Your login token is:</p>
+        <p> <span style="border: 1px solid black;padding:2;">$LOGIN_TOKEN</span> </p>
+        <p>Continue to <a href="/ui">Vault login</a></p>
+      </BODY>
+    </HTML>
+    EOF

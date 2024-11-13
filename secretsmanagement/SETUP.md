@@ -18,19 +18,15 @@ cd ~/git/oda-canvas
 
 helm repo update
 
-cd charts/cert-manager-init
-helm dependency update --skip-refresh
-cd ../../charts/controller
-helm dependency update --skip-refresh
-cd ../../charts/canvas-vault
-helm dependency update --skip-refresh
-cd ../../charts/secretsmanagement-operator
-helm dependency update --skip-refresh
-cd ../../charts/canvas-oda
-helm dependency update --skip-refresh
-cd ../..
+helm dependency update --skip-refresh ./charts/cert-manager-init
+helm dependency update --skip-refresh ./charts/canvas-api-gateway/combined-api-gateway-chart
+helm dependency update --skip-refresh ./charts/canvas-vault
+# helm dependency update --skip-refresh ./charts/secretsmanagement-operator
+helm dependency update --skip-refresh ./charts/canvas-oda
 
-helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP 
+helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set api-operator-istio.deployment.hostName=*.ihc-dt.cluster-3.de --set api-operator-istio.deployment.credentialName=wc-ihc-dt-cluster-3-de-tls
+
+
 #helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set dependentapi-simple-operator.serviceInventoryAPI.serverUrl=https://canvas-info.ihc-dt.cluster-3.de
 ```
 
@@ -38,8 +34,8 @@ helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --s
 ## patch api operator
 
 ```
-kubectl patch configmap/canvas-controller-configmap -n canvas --type merge -p "{\"data\":{\"APIOPERATORISTIO_PUBLICHOSTNAME\":\"components.ihc-dt.cluster-3.de\"}}"
-kubectl rollout restart deployment -n canvas oda-controller
+kubectl patch configmap/api-operator-istio-configmap -n canvas --type merge -p "{\"data\":{\"APIOPERATORISTIO_PUBLICHOSTNAME\":\"components.ihc-dt.cluster-3.de\"}}"
+kubectl rollout restart deployment -n canvas api-operator-istio
 ```
 
 

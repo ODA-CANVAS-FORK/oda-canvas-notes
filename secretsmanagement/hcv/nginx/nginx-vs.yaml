@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  labels:
+    app: hcv
+  name: nginx-vs
+  namespace: hcv
+spec:
+  gateways:
+  - components/component-gateway
+  hosts:
+  - hcv.ihc-dt.cluster-3.de
+  http:
+  - match:
+    - uri:
+        exact: /
+    route:
+    - destination:
+        host: nginx-service.hcv.svc.cluster.local
+        port:
+          number: 80

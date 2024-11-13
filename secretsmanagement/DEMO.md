@@ -16,7 +16,8 @@ kubectl config set-context --current --namespace=components
 ### open CMD with Component-Operator logfile
 
 ```
-kubectl logs -n canvas deployment/oda-controller -f
+kubectl logs -n canvas deployment/api-operator-istio -f
+kubectl logs -n canvas deployment/component-operator -f
 ```
 
 ### open CMD with SecretsManagement-Operator logfile
@@ -27,6 +28,15 @@ kubectl logs -n canvas deployment/canvas-smanop -f
 
 ### show empty HashiCorp Vault GUI
 
+
+#### deploy vault vs and landing-page
+
+```
+kubectl apply -f ~\git\oda-canvas-notes\secretsmanagement\virtualservices\canvas-vault-hc-vs.yaml
+kubectl apply -f ~\git\oda-canvas-notes\secretsmanagement\virtualservices\canvas-vault-landing-page.yaml
+```
+
+#### login to Vault using token from landing page
 
 https://canvas-vault-hc.ihc-dt.cluster-3.de
 
