@@ -22,7 +22,7 @@ kubectl apply -f hcv-vs.yaml
 # create secret
 
 ```
-kubectl create secret -n hcv generic hcv-secrets --from-literal=root-token=hvs.yvXB8bAprgfu8WqkmeYZKcqa --from-literal=unseal-key1=PVIKuA3+06CygnfeMBbh/YbjzHaqJp6QFoNBF3NrZkE=
+kubectl create secret -n hcv generic hcv-secrets --from-literal=root-token=hvs.yvXB...Kcqa --from-literal=unseal-key1=PVIK...rZkE=
 ```
  
 # cURL commands
