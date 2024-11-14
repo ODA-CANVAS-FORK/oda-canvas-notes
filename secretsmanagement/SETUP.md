@@ -8,6 +8,7 @@
 ```
 helm repo add jetstack https://charts.jetstack.io
 helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo add hashicorp https://helm.releases.hashicorp.com
 helm repo update
 ```
 
@@ -18,16 +19,13 @@ cd ~/git/oda-canvas
 
 helm repo update
 
+# helm dependency update --skip-refresh ./charts/secretsmanagement-operator
 helm dependency update --skip-refresh ./charts/cert-manager-init
 helm dependency update --skip-refresh ./charts/canvas-api-gateway/combined-api-gateway-chart
 helm dependency update --skip-refresh ./charts/canvas-vault
-# helm dependency update --skip-refresh ./charts/secretsmanagement-operator
 helm dependency update --skip-refresh ./charts/canvas-oda
 
-helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set api-operator-istio.deployment.hostName=*.ihc-dt.cluster-3.de --set api-operator-istio.deployment.credentialName=wc-ihc-dt-cluster-3-de-tls
-
-
-#helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set dependentapi-simple-operator.serviceInventoryAPI.serverUrl=https://canvas-info.ihc-dt.cluster-3.de
+helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set api-operator-istio.deployment.hostName=*.ihc-dt.cluster-3.de --set api-operator-istio.deployment.credentialName=wc-ihc-dt-cluster-3-de-tls --set api-operator-istio.configmap.publicHostname=components.ihc-dt.cluster-3.de
 ```
 
 
@@ -78,6 +76,25 @@ spec:
 kubectl apply -f virtualservices/canvas-keycloak-vs.yaml
 kubectl apply -f virtualservices/canvas-vault-hc-vs.yaml
 ```
+
+```
+kubectl apply -f ../oda-canvas-notes/secretsmanagement/virtualservices/canvas-keycloak-vs.yaml
+kubectl apply -f ../oda-canvas-notes/secretsmanagement/virtualservices/canvas-vault-landing-page.yaml
+kubectl apply -f ../oda-canvas-notes/secretsmanagement/virtualservices/canvas-vault-hc-vs.yaml
+kubectl apply -f ../oda-canvas-notes/secretsmanagement/virtualservices/canvas-info.yaml
+```
+
+### URLs
+
+* https://canvas-keycloak.ihc-dt.cluster-3.de/auth/
+* https://canvas-vault-hc.ihc-dt.cluster-3.de/
+** https://canvas-vault-hc.ihc-dt.cluster-3.de/ui/
+* https://canvas-info.ihc-dt.cluster-3.de/api-docs/
+
+
+
+
+
 
 ## [optional] alternative 
 
@@ -206,3 +223,12 @@ kubectl delete ns code-server
 
 do not uninstall istio, because it removes the loadbalancer carrying the external IP.
 Redeployment would change the IP address.
+
+# Notes
+
+run a pod with curl
+
+```
+kubectl delete pod --ignore-not-found -n canvas-vault temp-pod || true
+kubectl run -it --rm -n canvas-vault --image=tmforumodacanvas/baseimage-kubectl-curl:1.30.5 temp-pod --overrides="{\"spec\":{\"serviceAccount\":\"canvas-vault-hc-pih-sa\"}}" -- /bin/sh
+```
