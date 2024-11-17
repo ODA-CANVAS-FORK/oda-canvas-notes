@@ -3,19 +3,19 @@
 ## deploy exposed api
 
 ```
-helm upgrade --install ctk -n components feature-definition-and-test-kit/testData/productcatalog-v1beta3
+helm upgrade --install ctk -n components feature-definition-and-test-kit/testData/productcatalog-v1beta4
 ```
 
 ## query deployed services
 
 ```
-curl -sX 'GET'   'https://canvas-info.ihc-dt.cluster-3.de/service' -H 'accept: application/json' | jq -r '.[].id'
+curl -sX GET   https://canvas-info.ihc-dt.cluster-3.de/service -H "accept:application/json"   | jq -r ".[].id"
 ```
 
 ## deploy consumer (component with dependency to exposed api)
 
 ```
-helm install testdapi -n components feature-definition-and-test-kit/testData/productcatalog-dependendent-API-v1beta3
+helm install testdapi -n components feature-definition-and-test-kit/testData/productcatalog-dependendent-API-v1beta4
 ```
 
 ## look dependentapi custom resource
