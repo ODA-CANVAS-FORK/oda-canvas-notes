@@ -15,7 +15,7 @@ curl -sX GET   https://canvas-info.ihc-dt.cluster-3.de/service -H "accept:applic
 ## deploy consumer (component with dependency to exposed api)
 
 ```
-helm install testdapi -n components feature-definition-and-test-kit/testData/productcatalog-dependendent-API-v1beta4
+helm install tdapi -n components feature-definition-and-test-kit/testData/productcatalog-dependendent-API-v1beta4
 ```
 
 ## look dependentapi custom resource
