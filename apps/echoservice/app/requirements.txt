@@ -1,0 +1,6 @@
+Flask
+Requests
+debugpy
+pyjwt
+cryptography
+

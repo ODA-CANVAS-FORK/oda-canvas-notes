@@ -1,0 +1,99 @@
+openapi: 3.0.2
+info:
+  title: Echoservice API
+  version: 1.0.0
+servers:
+  - url: https://echoservice.magentacanvas.aws.telekom.de
+paths:
+  /echo:
+    post:
+      summary: Echo
+      operationId: echo_auth__post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Echo_request'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Echo_response'
+        '401':
+          description: Unauthorized
+          detail: Unauthorized
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '502':
+          description: Bad Gateway
+          detail: login url not found...
+components:
+  schemas:
+    Echo_request:
+      title: Echo_request
+      required:
+        - text
+      type: object
+      properties:
+        text:
+          title: text
+          type: string
+          example: Wie heisst der Buergermeister von Wesel
+    Echo_response:
+      title: Echo_response
+      required:
+        - echo
+        - timestamp
+      type: object
+      properties:
+        echo:
+          title: Echo
+          type: string
+          example: ...esel
+        timestamp:
+          title: Timestamp
+          type: string
+          format: date-time
+          example: 2023-10-02T17:32:28Z
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    ValidationError:
+      title: ValidationError
+      required:
+      - loc
+      - msg
+      - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: x-gateway-token
