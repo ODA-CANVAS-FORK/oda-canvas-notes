@@ -48,6 +48,13 @@ PAYLOAD: ?
 10.88.3.242 - - [22/Nov/2024 09:05:49] "POST /echo HTTP/1.1" 401 -
 ```
 
+
+# Envoy config_dump
+
+```
+kubectl exec -n echoservice echoservice-deployment-5f79c45f85-8cbsb -c istio-proxy -- curl http://localhost:15000/config_dump
+```
+
 # Envoy server_info
 
 ```

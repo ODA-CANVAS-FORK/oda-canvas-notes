@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: echoservice
+  name: echoservice-deployment
+spec:
+  selector:
+    matchLabels:
+      app: echoservice
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: echoservice
+    spec:
+      containers:
+      - name: echoservice
+        image: ocfork/echoservice:v0.1.0 
+        imagePullPolicy: Always
+        volumeMounts:
+        - mountPath: /config_map/oauth2secs
+          name: oauth2secs
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: oauth2secs-cm
+        name: oauth2secs
+  

@@ -1,0 +1,43 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"networking.istio.io/v1alpha3","kind":"EnvoyFilter","metadata":{"annotations":{},"name":"envoyfilter-oauth2-test","namespace":"istio-system"},"spec":{"configPatches":[{"applyTo":"HTTP_FILTER","match":{"context":"GATEWAY"},"patch":{"operation":"INSERT_BEFORE","value":{"name":"envoy.filters.http.credential_injector","typed_config":{"@type":"type.googleapis.com/envoy.extensions.filters.http.credential_injector.v3.CredentialInjector","credential":{"name":"envoy.http.injected_credentials.oauth2","typed_config":{"@type":"type.googleapis.com/envoy.extensions.http.injected_credentials.oauth2.v3.OAuth2","client_credentials":{"client_id":"demo-a-productcatalogmanagement","client_secret":{"name":"clientsecret","sds_config":{"path_config_source":{"path":"/config_map/oauth2secs/demo-a-productcatalogmanagement.yaml","watched_directory":{"path":"/config_map/oauth2secs"}}}}},"token_endpoint":{"cluster":"outbound|8083||canvas-keycloak.canvas.svc.cluster.local","timeout":"3s","uri":"http://canvas-keycloak.canvas.svc.cluster.local/auth/realms/myrealm/protocol/openid-connect/token"}}}}}}}],"workloadSelector":{"labels":{"istio":"ingressgateway"}}}}
+  creationTimestamp: "2024-11-22T20:52:05Z"
+  generation: 1
+  name: envoyfilter-oauth2-test
+  namespace: istio-system
+  resourceVersion: "241352770"
+  uid: d9b5a189-56e4-4ebd-923c-024785ce0288
+spec:
+  configPatches:
+  - applyTo: HTTP_FILTER
+    match:
+      context: GATEWAY
+    patch:
+      operation: INSERT_BEFORE
+      value:
+        name: envoy.filters.http.credential_injector
+        typed_config:
+          '@type': type.googleapis.com/envoy.extensions.filters.http.credential_injector.v3.CredentialInjector
+          credential:
+            name: envoy.http.injected_credentials.oauth2
+            typed_config:
+              '@type': type.googleapis.com/envoy.extensions.http.injected_credentials.oauth2.v3.OAuth2
+              client_credentials:
+                client_id: demo-a-productcatalogmanagement
+                client_secret:
+                  name: clientsecret
+                  sds_config:
+                    path_config_source:
+                      path: /config_map/oauth2secs/demo-a-productcatalogmanagement.yaml
+                      watched_directory:
+                        path: /config_map/oauth2secs
+              token_endpoint:
+                cluster: outbound|8083||canvas-keycloak.canvas.svc.cluster.local
+                timeout: 3s
+                uri: http://canvas-keycloak.canvas.svc.cluster.local/auth/realms/myrealm/protocol/openid-connect/token
+  workloadSelector:
+    labels:
+      istio: ingressgateway
