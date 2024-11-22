@@ -1,0 +1,28 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"networking.istio.io/v1beta1","kind":"VirtualService","metadata":{"annotations":{},"labels":{"app":"canvas-keycloak"},"name":"canvas-keycloak-vs","namespace":"canvas"},"spec":{"gateways":["components/component-gateway"],"hosts":["canvas-keycloak.ihc-dt.cluster-3.de"],"http":[{"match":[{"uri":{"prefix":"/"}}],"route":[{"destination":{"host":"canvas-keycloak.canvas.svc.cluster.local","port":{"number":8083}}}]}]}}
+  creationTimestamp: "2024-11-21T23:14:29Z"
+  generation: 3
+  labels:
+    app: canvas-keycloak
+  name: canvas-keycloak-vs
+  namespace: canvas
+  resourceVersion: "240850538"
+  uid: 9ac1e78e-9b84-463d-96be-01788e3a29ce
+spec:
+  gateways:
+  - components/component-gateway
+  hosts:
+  - canvas-keycloak.ihc-dt.cluster-3.de
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: canvas-keycloak.canvas.svc.cluster.local
+        port:
+          number: 8083

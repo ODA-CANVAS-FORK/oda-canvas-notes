@@ -30,9 +30,10 @@ spec:
   selector:
     app: canvas-vault-landing-page
   ports:
-  - port: 80
-    name: ngx
+  - name: http
+    port: 80
     targetPort: 80
+    protocol: TCP
 ---
 apiVersion: apps/v1
 kind: Deployment

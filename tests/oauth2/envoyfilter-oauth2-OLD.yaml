@@ -1,0 +1,63 @@
+# https://github.com/istio/istio/wiki/EnvoyFilter-Samples#adding-a-http-lua-filter
+# Edge LB (nginx) terminates HTTPS and forwards to istio-ingress using HTTP.
+# X-Forward-Proto is set correctly to "https", but it is overwritten by istio.
+# setting xff_num_trusted_hops did not help, so hardcode https as protocol.
+# 
+# Important for Keycloak Admin login and Swagger UI execution
+# 
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: envoyfilter-oauth2-test
+  namespace: istio-system
+spec:
+  workloadSelector:
+    labels:
+      istio: ingressgateway
+  configPatches:
+  # https://github.com/istio/istio/issues/47572
+  - applyTo: HTTP_FILTER
+    match:
+      context: GATEWAY
+      listener:
+        filterChain:
+          filter:
+            name: envoy.filters.network.http_connection_manager
+            subFilter:
+              name: envoy.filters.http.jwt_authn
+    patch:
+      operation: INSERT_BEFORE
+      value: 
+         # https://github.com/veehaitch/envoy-oauth2-filter-google/blob/main/envoy/envoy.yaml
+         name: envoy.filters.http.oauth2
+         typed_config:
+           "@type": type.googleapis.com/envoy.extensions.filters.http.oauth2.v3.OAuth2
+           config:
+             token_endpoint:
+               cluster: google-oauth2-token
+               uri: https://oauth2.googleapis.com/token
+               timeout: 3s
+             authorization_endpoint: https://accounts.google.com/o/oauth2/v2/auth
+             redirect_uri: https://vincent-haupert.de/oauth2/callback
+             redirect_path_matcher:
+               path:
+                 exact: /oauth2/callback
+             signout_path:
+               path:
+                 exact: /oauth2/signout
+             credentials:
+               client_id: "544645505391-67rridbtgfhuicudis85onpc054qb7qu.apps.googleusercontent.com"
+               token_secret:
+                 name: token
+                 sds_config:
+                   path: "/etc/envoy/token-secret.yaml"
+               hmac_secret:
+                 name: hmac
+                 sds_config:
+                   path: "/etc/envoy/hmac-secret.yaml"
+             forward_bearer_token: true
+             # Cf. https://github.com/envoyproxy/envoy/pull/14168
+             auth_scopes:
+               - openid
+
+               

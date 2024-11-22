@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    cloud.google.com/neg: '{"ingress":true}'
+    meta.helm.sh/release-name: canvas
+    meta.helm.sh/release-namespace: canvas
+  creationTimestamp: "2024-11-21T20:44:34Z"
+  labels:
+    app.kubernetes.io/component: keycloak
+    app.kubernetes.io/instance: canvas
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: keycloak
+    helm.sh/chart: keycloak-13.0.2
+  name: canvas-keycloak
+  namespace: canvas
+  resourceVersion: "240393466"
+  uid: 38176d49-21e8-4436-9249-7417f8e0086b
+spec:
+  clusterIP: 10.92.7.186
+  clusterIPs:
+  - 10.92.7.186
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: http
+    port: 8083
+    protocol: TCP
+    targetPort: http
+  selector:
+    app.kubernetes.io/component: keycloak
+    app.kubernetes.io/instance: canvas
+    app.kubernetes.io/name: keycloak
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

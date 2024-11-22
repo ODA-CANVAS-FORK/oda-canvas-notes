@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    cloud.google.com/neg: '{"ingress":true}'
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"labels":{"app":"keycloak2"},"name":"canvas-keycloak2","namespace":"canvas"},"spec":{"ports":[{"name":"http","port":80,"protocol":"TCP","targetPort":8083}],"selector":{"app.kubernetes.io/component":"keycloak","app.kubernetes.io/instance":"canvas","app.kubernetes.io/name":"keycloak"},"sessionAffinity":"None","type":"ClusterIP"}}
+  creationTimestamp: "2024-11-21T23:33:01Z"
+  labels:
+    app: keycloak2
+  name: canvas-keycloak2
+  namespace: canvas
+  resourceVersion: "240505876"
+  uid: 1e322295-8115-4fa6-bb11-4c352f1c4451
+spec:
+  clusterIP: 10.92.2.13
+  clusterIPs:
+  - 10.92.2.13
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 8083
+  selector:
+    app.kubernetes.io/component: keycloak
+    app.kubernetes.io/instance: canvas
+    app.kubernetes.io/name: keycloak
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

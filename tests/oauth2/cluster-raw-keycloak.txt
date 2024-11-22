@@ -1,0 +1,24 @@
+# https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/credential_injector_filter#oauth2-credential-injector-client-credential-grant
+#
+# token_endpoint:
+#   cluster: keycloakcluster3
+#   timeout: 3s
+#   uri: "https://canvas-keycloak.ihc-dt.cluster-3.de/oauth2/default/v1/token"
+#
+clusters:
+  - lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: keycloakcluster3
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: canvas-keycloak.ihc-dt.cluster-3.de
+                port_value: 443
+    name: keycloakcluster3
+    transport_socket:
+      name: envoy.transport_sockets.tls
+      typed_config:
+        '@type': type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext
+        sni: canvas-keycloak.ihc-dt.cluster-3.de

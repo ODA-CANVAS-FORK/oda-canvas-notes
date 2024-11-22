@@ -19,7 +19,7 @@ spec:
         host: canvas-keycloak.canvas.svc.cluster.local
         port:
           number: 8083
-      headers:
-        request:
-          set:
-            X-Forwarded-Proto: https
+      #headers:
+      #  request:
+      #    set:
+      #	      X-Forwarded-Proto: https

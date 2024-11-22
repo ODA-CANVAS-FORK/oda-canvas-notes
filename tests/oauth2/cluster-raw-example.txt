@@ -1,0 +1,24 @@
+# https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/credential_injector_filter#oauth2-credential-injector-client-credential-grant
+#
+# token_endpoint:
+#   cluster: okta.ad
+#   timeout: 3s
+#   uri: "https://dev-1178504991.okta.com/oauth2/default/v1/token"
+#
+clusters:
+  - lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: okta.ad
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: dev-1178504991.okta.com
+                port_value: 443
+    name: okta.ad
+    transport_socket:
+      name: envoy.transport_sockets.tls
+      typed_config:
+        '@type': type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext
+        sni: dev-1178504991.okta.com
