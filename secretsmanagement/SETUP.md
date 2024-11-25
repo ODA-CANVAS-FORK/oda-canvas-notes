@@ -28,6 +28,36 @@ helm dependency update --skip-refresh ./charts/canvas-oda
 helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set api-operator-istio.deployment.hostName=*.ihc-dt.cluster-3.de --set api-operator-istio.deployment.credentialName=wc-ihc-dt-cluster-3-de-tls --set api-operator-istio.configmap.publicHostname=components.ihc-dt.cluster-3.de
 ```
 
+for ihc-dt2:
+
+```
+helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set api-operator-istio.deployment.hostName=*.ihc-dt2.cluster-3.de --set api-operator-istio.deployment.credentialName=wc-ihc-dt2-cluster-3-de-tls --set api-operator-istio.configmap.publicHostname=components.ihc-dt2.cluster-3.de
+```
+
+
+# install virtual-services
+
+```
+kubectl apply -f ../oda-canvas-notes/secretsmanagement/virtualservices
+```
+
+for ihc-dt2:
+
+```
+kubectl apply -f ../oda-canvas-notes/secretsmanagement/virtualservices/ihc-dt2
+```
+
+# deploy echoservice
+
+```
+kubectl apply -f ../oda-canvas-notes/apps/echoservice/k8s
+```
+
+for ihc-dt2:
+
+```
+kubectl apply -f ../oda-canvas-notes/apps/echoservice/k8s/ihc-dt2
+```
 
 ## patch api operator
 
