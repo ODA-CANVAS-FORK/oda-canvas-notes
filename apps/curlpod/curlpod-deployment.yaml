@@ -17,4 +17,11 @@ spec:
       - name: curlpod
         image: tmforumodacanvas/baseimage-kubectl-curl:1.30.5
         imagePullPolicy: Always
+        command: ["/bin/sh", "-c", "--"]
+        args: [ "echo curlpod started;
+        while true; do
+		echo;
+        curl -v http://echoservice.echoservice.svc.cluster.local/ip;
+		sleep 60;
+        done"]
   
