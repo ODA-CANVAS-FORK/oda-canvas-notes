@@ -12,6 +12,7 @@ spec:
     metadata:
       labels:
         app: echoservice
+        ltest: ltest
     spec:
       containers:
       - name: echoservice

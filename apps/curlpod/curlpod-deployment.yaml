@@ -12,6 +12,7 @@ spec:
     metadata:
       labels:
         app: curlpod
+        ltest: ltest
     spec:
       containers:
       - name: curlpod
@@ -21,7 +22,7 @@ spec:
         args: [ "echo curlpod started;
         while true; do
 		echo;
-        curl -v http://echoservice.echoservice.svc.cluster.local/ip;
-		sleep 60;
+        curl -s http://echoservice.echoservice.svc.cluster.local/ip;
+		sleep 15;
         done"]
   
