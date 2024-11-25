@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  namespace: echoservice
+  name: curlpod
+spec:
+  selector:
+    matchLabels:
+      app: curlpod
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: curlpod
+    spec:
+      containers:
+      - name: curlpod
+        image: tmforumodacanvas/baseimage-kubectl-curl:1.30.5
+        imagePullPolicy: Always
+  
