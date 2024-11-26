@@ -16,6 +16,7 @@ spec:
     spec:
       containers:
       - name: echoservice
-        image: ocfork/echoservice:v0.1.0 
+        # image: ocfork/echoservice:v0.1.0 
+        image: ocfork/echoservice 
         imagePullPolicy: Always
   

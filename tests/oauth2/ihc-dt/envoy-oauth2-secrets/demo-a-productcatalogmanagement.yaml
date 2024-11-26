@@ -3,4 +3,4 @@ resources:
   name: clientsecret
   generic_secret:
     secret:
-      inline_bytes: "ekU2V1AzZ1RkQ0RqTmpjSkJtb0xQZ0VSNDNNMkJWWXA="
+      inline_string: "oQH2khKfbC7QPBJTFXDMTGmesH5UpQY0"
