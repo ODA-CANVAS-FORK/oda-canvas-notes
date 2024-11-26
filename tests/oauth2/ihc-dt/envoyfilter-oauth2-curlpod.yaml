@@ -1,0 +1,40 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: envoyfilter-oauth2-curlpod
+  namespace: istio-system
+spec:
+  workloadSelector:
+    labels:
+      app: demo-a-productcatalogmanagement
+  configPatches:
+  # https://github.com/istio/istio/issues/47572
+  - applyTo: HTTP_FILTER
+    match:
+      context: SIDECAR_OUTBOUND
+    patch:
+      operation: INSERT_BEFORE
+      value: 
+         # https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/credential_injector_filter#oauth2-credential-injector-client-credential-grant
+         # (https://github.com/veehaitch/envoy-oauth2-filter-google/blob/main/envoy/envoy.yaml)
+         # name: envoy.filters.http.oauth2
+         name: envoy.filters.http.credential_injector
+         typed_config:
+             "@type": type.googleapis.com/envoy.extensions.filters.http.credential_injector.v3.CredentialInjector
+             credential:
+               name: envoy.http.injected_credentials.oauth2
+               typed_config:
+                 "@type": type.googleapis.com/envoy.extensions.http.injected_credentials.oauth2.v3.OAuth2
+                 token_endpoint:
+                   cluster: "outbound|8083||canvas-keycloak.canvas.svc.cluster.local"
+                   timeout: 3s
+                   uri: "http://canvas-keycloak.canvas.svc.cluster.local:8083/auth/realms/myrealm/protocol/openid-connect/token"
+                 client_credentials:
+                   client_id: demo-a-productcatalogmanagement
+                   client_secret:
+                     name: clientsecret
+                     sds_config:
+                       path_config_source:
+                         path: "/envoy_secrets/oauth2secs/demo-a-productcatalogmanagement.yaml"
+                         watched_directory: 
+                            path: "/envoy_secrets/oauth2secs"

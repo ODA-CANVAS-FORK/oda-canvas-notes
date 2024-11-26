@@ -80,7 +80,11 @@ def echo():
     for h in request.headers:
         print(f"{h[0]}: {h[1]}")
     print("----------")
-    
+    if request.is_json:
+        print(request.json)
+    else:
+        print(request.form)
+    print("----------")
     xgt_token = request.headers.get("X-Gateway-Token")  # request.headers["x-gateway-token"] 
     if not xgt_token:
         xgt_token = request.headers.get("Authorization")    

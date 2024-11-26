@@ -1,0 +1,6 @@
+resources:
+- "@type": "type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.Secret"
+  name: clientsecret
+  generic_secret:
+    secret:
+      inline_bytes: "ekU2V1AzZ1RkQ0RqTmpjSkJtb0xQZ0VSNDNNMkJWWXA="

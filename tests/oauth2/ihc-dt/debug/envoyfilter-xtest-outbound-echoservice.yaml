@@ -1,0 +1,30 @@
+# https://github.com/istio/istio/wiki/EnvoyFilter-Samples#adding-a-http-lua-filter
+# Edge LB (nginx) terminates HTTPS and forwards to istio-ingress using HTTP.
+# X-Forward-Proto is set correctly to "https", but it is overwritten by istio.
+# setting xff_num_trusted_hops did not help, so hardcode https as protocol.
+# 
+# Important for Keycloak Admin login and Swagger UI execution
+# 
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: envoy-test-outbound
+  namespace: istio-system
+spec:
+  workloadSelector:
+    labels:
+      app: curlpod
+  configPatches:
+  - applyTo: HTTP_FILTER
+    match:
+      context: SIDECAR_OUTBOUND
+    patch:
+      operation: INSERT_BEFORE
+      value: 
+       name: envoy.lua
+       typed_config:
+          "@type": "type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua"
+          inlineCode: |
+            function envoy_on_request(request_handle)
+              request_handle:headers():add("X-Test-Outbound", "outbound")
+            end
