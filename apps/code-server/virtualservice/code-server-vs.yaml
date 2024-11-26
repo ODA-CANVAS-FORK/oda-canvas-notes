@@ -1,15 +1,15 @@
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name: code-server-vs
   namespace: code-server
+  name: code-server-vs
   labels:
     app: code-server
 spec:
   gateways:
   - components/component-gateway
   hosts:
-  - 'code-server.ihc-dt.cluster-3.de'
+  - code-server.ihc-dt.cluster-3.de
   http:
   - match:
     - uri:
@@ -19,5 +19,3 @@ spec:
         host: code-server.code-server.svc.cluster.local
         port:
           number: 8080
-          
-          

@@ -6,7 +6,7 @@ cd $(dirname -- $0)
 test -n "$CODE_SERVER_PASSWORD"
 
 kubectl create ns code-server || true
-	kubectl create secret generic -n code-server code-server-secret --from-literal=password="$CODE_SERVER_PASSWORD" --dry-run=client -oyaml | kubectl apply -f - 
+kubectl create secret generic -n code-server code-server-secret --from-literal=password="$CODE_SERVER_PASSWORD" --dry-run=client -oyaml | kubectl apply -f - 
 
 rm -rf code-server-repo
 git clone https://github.com/coder/code-server code-server-repo

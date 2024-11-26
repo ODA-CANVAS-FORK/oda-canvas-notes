@@ -1,21 +1,21 @@
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
+  namespace: code-server
+  name: code-server-vs
   labels:
-    app: grafana
-  name: grafana-vs
-  namespace: grafana
+    app: code-server
 spec:
   gateways:
   - components/component-gateway
   hosts:
-  - grafana.ihc-dt.cluster-3.de
+  - code-server-temp.ihc-dt.cluster-3.de
   http:
   - match:
     - uri:
         prefix: /
     route:
     - destination:
-        host: kube-prometheus-stack-grafana.grafana.svc.cluster.local
+        host: code-server.code-server.svc.cluster.local
         port:
-          number: 80
+          number: 8080
