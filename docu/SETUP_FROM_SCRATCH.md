@@ -138,6 +138,7 @@ test in browser
 https://code-server.ihc-dt.cluster-3.de
 (password as defined above)
 
+
 ## install EchoService with istio sidecar
 
 ```
@@ -149,4 +150,38 @@ kubectl apply -f apps/echoservice/k8s
 
 test im browser:
 https://echoservice.ihc-dt.cluster-3.de/ip
+
+
+## install KeyCloak route
+
+```
+kubectl apply -f apps/canvas-keycloak/canvas-keycloak-vs.yaml
+```
+
+test in browser
+https://canvas-keycloak.ihc-dt.cluster-3.de/auth/
+(use admin/adpass)
+
+
+## install Canvas-Infoservice route
+
+```
+kubectl apply -f apps/canvas-info/canvas-info-vs.yaml
+```
+
+test in browser
+https://canvas-info.ihc-dt.cluster-3.de/api-docs/
+
+## install HashiCorp Vault route
+
+```
+kubectl apply -f apps/canvas-vault/canvas-vault-hc-vs.yaml
+kubectl apply -f apps/canvas-vault/canvas-vault-landing-page-vs.yaml
+```
+
+test in browser:
+https://canvas-vault-hc.ihc-dt.cluster-3.de
+(use root token in landing-page to login)
+
+
 

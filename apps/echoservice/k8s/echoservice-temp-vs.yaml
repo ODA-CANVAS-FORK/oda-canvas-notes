@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  namespace: echoservice
+  name: echoservice-temp-vs
+  labels:
+    app: echoservice
+spec:
+  gateways:
+  - components/component-gateway
+  hosts:
+  - echoservice-temp.ihc-dt.cluster-3.de
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: echoservice.echoservice.svc.cluster.local
+        port:
+          number: 80

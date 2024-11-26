@@ -1,21 +1,21 @@
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  namespace: code-server
-  name: code-server-vs
   labels:
-    app: code-server
+    app: canvas-info
+  name: canvas-info-vs
+  namespace: canvas
 spec:
   gateways:
   - components/component-gateway
   hosts:
-  - code-server-temp.ihc-dt.cluster-3.de
+  - canvas-info.ihc-dt.cluster-3.de
   http:
   - match:
     - uri:
         prefix: /
     route:
     - destination:
-        host: code-server.code-server.svc.cluster.local
+        host: info.canvas.svc.cluster.local
         port:
-          number: 8080
+          number: 80
