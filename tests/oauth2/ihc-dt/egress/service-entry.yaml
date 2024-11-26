@@ -1,0 +1,31 @@
+apiVersion: networking.istio.io/v1
+kind: ServiceEntry
+metadata:
+  namespace: components
+  name: echo-free-beeceptor-com
+spec:
+  hosts:
+  - echo.free.beeceptor.com
+  ports:
+  - number: 80
+    name: http-port
+    protocol: HTTP
+    targetPort: 443
+  - number: 443
+    name: https-port
+    protocol: HTTPS
+  resolution: DNS
+---
+apiVersion: networking.istio.io/v1
+kind: DestinationRule
+metadata:
+  namespace: components
+  name: echo-free-beeceptor-com
+spec:
+  host: echo.free.beeceptor.com
+  trafficPolicy:
+    portLevelSettings:
+    - port:
+        number: 80
+      tls:
+        mode: SIMPLE # initiates HTTPS when accessing echo.free.beeceptor.com

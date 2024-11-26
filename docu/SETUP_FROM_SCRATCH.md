@@ -16,6 +16,14 @@ kubectl label namespace istio-ingress istio-injection=enabled
 helm install istio-ingress istio/gateway -n istio-ingress --set labels.app=istio-ingress --set labels.istio=ingressgateway --wait
 ```
 
+### activate envoy access logging
+
+see https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig
+
+```
+helm upgrade --install istiod istio/istiod -n istio-system --set meshConfig.accessLogFile=dev/stdout --wait
+```
+
 ## configure DNS wildcard entry
 
 get external ip of ingress gateway
@@ -185,3 +193,12 @@ https://canvas-vault-hc.ihc-dt.cluster-3.de
 
 
 
+# Egress gateway
+
+https://artifacthub.io/packages/helm/istio-official/gateway#egress-gateway
+
+```
+kubectl create namespace istio-egress
+kubectl label namespace istio-egress istio-injection=enabled
+helm install istio-egress istio/gateway -n istio-egress --set labels.app=istio-egress --set labels.istio=egressgateway --set service.type=ClusterIP --wait
+```
