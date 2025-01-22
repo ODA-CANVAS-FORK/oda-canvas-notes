@@ -87,8 +87,12 @@ cd ~/git/oda-canvas
 
 helm repo update
 
+#initial call without --skip-refresh
+
 helm dependency update --skip-refresh ./charts/cert-manager-init
-helm dependency update --skip-refresh ./charts/canvas-api-gateway/combined-api-gateway-chart
+#helm dependency update --skip-refresh ./charts/canvas-api-gateway/combined-api-gateway-chart
+helm dependency update --skip-refresh ./charts/kong-gateway
+helm dependency update --skip-refresh ./charts/apisix-gateway
 helm dependency update --skip-refresh ./charts/canvas-vault
 helm dependency update --skip-refresh ./charts/canvas-oda
 

@@ -1,0 +1,78 @@
+apiVersion: v1
+items:
+- apiVersion: networking.istio.io/v1alpha3
+  kind: EnvoyFilter
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"networking.istio.io/v1alpha3","kind":"EnvoyFilter","metadata":{"annotations":{},"name":"envoy-test-outbound","namespace":"istio-system"},"spec":{"configPatches":[{"applyTo":"HTTP_FILTER","match":{"context":"SIDECAR_OUTBOUND"},"patch":{"operation":"INSERT_BEFORE","value":{"name":"envoy.lua","typed_config":{"@type":"type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua","inlineCode":"function envoy_on_request(request_handle)\n  request_handle:headers():add(\"X-Test-Outbound\", \"outbound\")\nend\n"}}}}],"workloadSelector":{"labels":{"app":"curlpod"}}}}
+    creationTimestamp: "2024-11-26T11:17:18Z"
+    generation: 1
+    name: envoy-test-outbound
+    namespace: istio-system
+    resourceVersion: "178302"
+    uid: e8438bf6-0f2e-4cb7-87c4-cd5bf7e0b5ec
+  spec:
+    configPatches:
+    - applyTo: HTTP_FILTER
+      match:
+        context: SIDECAR_OUTBOUND
+      patch:
+        operation: INSERT_BEFORE
+        value:
+          name: envoy.lua
+          typed_config:
+            '@type': type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
+            inlineCode: |
+              function envoy_on_request(request_handle)
+                request_handle:headers():add("X-Test-Outbound", "outbound")
+              end
+    workloadSelector:
+      labels:
+        app: curlpod
+- apiVersion: networking.istio.io/v1alpha3
+  kind: EnvoyFilter
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"networking.istio.io/v1alpha3","kind":"EnvoyFilter","metadata":{"annotations":{},"name":"envoyfilter-oauth2-curlpod","namespace":"istio-system"},"spec":{"configPatches":[{"applyTo":"HTTP_FILTER","match":{"context":"SIDECAR_OUTBOUND"},"patch":{"operation":"INSERT_BEFORE","value":{"name":"envoy.filters.http.credential_injector","typed_config":{"@type":"type.googleapis.com/envoy.extensions.filters.http.credential_injector.v3.CredentialInjector","credential":{"name":"envoy.http.injected_credentials.oauth2","typed_config":{"@type":"type.googleapis.com/envoy.extensions.http.injected_credentials.oauth2.v3.OAuth2","client_credentials":{"client_id":"demo-a-productcatalogmanagement","client_secret":{"name":"clientsecret","sds_config":{"path_config_source":{"path":"/envoy_secrets/oauth2secs/demo-a-productcatalogmanagement.yaml","watched_directory":{"path":"/envoy_secrets/oauth2secs"}}}}},"token_endpoint":{"cluster":"outbound|8083||canvas-keycloak.canvas.svc.cluster.local","timeout":"3s","uri":"http://canvas-keycloak.canvas.svc.cluster.local:8083/auth/realms/myrealm/protocol/openid-connect/token"}}}}}}}],"workloadSelector":{"labels":{"app":"demo-a-productcatalogmanagement"}}}}
+    creationTimestamp: "2024-11-26T15:44:33Z"
+    generation: 1
+    name: envoyfilter-oauth2-curlpod
+    namespace: istio-system
+    resourceVersion: "364095"
+    uid: eb010741-ffd8-44d0-af54-efcfbf863761
+  spec:
+    configPatches:
+    - applyTo: HTTP_FILTER
+      match:
+        context: SIDECAR_OUTBOUND
+      patch:
+        operation: INSERT_BEFORE
+        value:
+          name: envoy.filters.http.credential_injector
+          typed_config:
+            '@type': type.googleapis.com/envoy.extensions.filters.http.credential_injector.v3.CredentialInjector
+            credential:
+              name: envoy.http.injected_credentials.oauth2
+              typed_config:
+                '@type': type.googleapis.com/envoy.extensions.http.injected_credentials.oauth2.v3.OAuth2
+                client_credentials:
+                  client_id: demo-a-productcatalogmanagement
+                  client_secret:
+                    name: clientsecret
+                    sds_config:
+                      path_config_source:
+                        path: /envoy_secrets/oauth2secs/demo-a-productcatalogmanagement.yaml
+                        watched_directory:
+                          path: /envoy_secrets/oauth2secs
+                token_endpoint:
+                  cluster: outbound|8083||canvas-keycloak.canvas.svc.cluster.local
+                  timeout: 3s
+                  uri: http://canvas-keycloak.canvas.svc.cluster.local:8083/auth/realms/myrealm/protocol/openid-connect/token
+    workloadSelector:
+      labels:
+        app: demo-a-productcatalogmanagement
+kind: List
+metadata:
+  resourceVersion: ""
