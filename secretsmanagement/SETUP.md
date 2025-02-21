@@ -19,21 +19,28 @@ cd ~/git/oda-canvas
 
 helm repo update
 
-# helm dependency update --skip-refresh ./charts/secretsmanagement-operator
+helm dependency update ./charts/cert-manager-init
+helm dependency update ./charts/kong-gateway
+helm dependency update ./charts/apisix-gateway
+helm dependency update ./charts/canvas-vault
+helm dependency update ./charts/canvas-oda
+
 helm dependency update --skip-refresh ./charts/cert-manager-init
-helm dependency update --skip-refresh ./charts/canvas-api-gateway/combined-api-gateway-chart
+helm dependency update --skip-refresh ./charts/kong-gateway
+helm dependency update --skip-refresh ./charts/apisix-gateway
 helm dependency update --skip-refresh ./charts/canvas-vault
 helm dependency update --skip-refresh ./charts/canvas-oda
 
-helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set api-operator-istio.deployment.hostName=*.ihc-dt.cluster-3.de --set api-operator-istio.deployment.credentialName=wc-ihc-dt-cluster-3-de-tls --set api-operator-istio.configmap.publicHostname=components.ihc-dt.cluster-3.de
+helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set api-operator-istio.deployment.hostName=*.ihc-dt.cluster-3.de --set api-operator-istio.deployment.credentialName=wc-ihc-dt-cluster-3-de-tls --set api-operator-istio.configmap.publicHostname=components.ihc-dt.cluster-3.de --set=api-operator-istio.deployment.httpsRedirect=false --set=dependentapi-simple-operator.serviceInventoryAPI.serverUrl=https://canvas-info.ihc-dt.cluster-3.de
 ```
 
-for ihc-dt2:
+
+
+# [opt] change public url for info service
 
 ```
-helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set api-operator-istio.deployment.hostName=*.ihc-dt2.cluster-3.de --set api-operator-istio.deployment.credentialName=wc-ihc-dt2-cluster-3-de-tls --set api-operator-istio.configmap.publicHostname=components.ihc-dt2.cluster-3.de
+kubectl set env deployment/canvas-info-service -n canvas SERVER_URL=https://canvas-info.ihc-dt.cluster-3.de
 ```
-
 
 # install virtual-services
 
