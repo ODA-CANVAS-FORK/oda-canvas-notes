@@ -3,7 +3,7 @@
 ## deploy exposed api
 
 ```
-helm upgrade --install ctk -n components feature-definition-and-test-kit/testData/productcatalog-v1beta4
+helm upgrade --install demo-a -n components feature-definition-and-test-kit/testData/productcatalog-v1
 ```
 
 ## query deployed services
@@ -15,7 +15,7 @@ curl -sX GET   https://canvas-info.ihc-dt.cluster-3.de/service -H "accept:applic
 ## deploy consumer (component with dependency to exposed api)
 
 ```
-helm install tdapi -n components feature-definition-and-test-kit/testData/productcatalog-dependendent-API-v1beta4
+helm install demo-b -n components feature-definition-and-test-kit/testData/productcatalog-dependendent-API-v1
 ```
 
 ## look dependentapi custom resource
@@ -54,7 +54,7 @@ $ kubectl logs -n canvas deployment/canvas-depapi-op
 ## undeploy consumer
 
 ```
-helm uninstall -n components testdapi
+helm uninstall -n components demo-b
 ```
 
 
@@ -71,6 +71,5 @@ helm uninstall -n components testdapi
 ## query deployed services
 
 ```
-curl -sX 'GET'   'https://canvas-info.ihc-dt.cluster-3.de/tmf-api/serviceInventoryManagement/v5/service'   -H 'accept: application/json' | jq -r '.[].id'
-
+curl -sX GET   https://canvas-info.ihc-dt.cluster-3.de/service -H "accept:application/json"   | jq -r ".[].id"
 ```
