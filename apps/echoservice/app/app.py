@@ -16,13 +16,13 @@ from token_validator import XGatewayTokenValidator
 app = Flask(__name__)
 
 
-XGT_TRUSTED_ISSUERS = os.getenv("XGT_TRUSTED_ISSUERS","https://stargate-playground.live.dhei.telekom.de/auth/realms/default")
+XGT_TRUSTED_ISSUERS = os.getenv("XGT_TRUSTED_ISSUERS","https://canvas-keycloak.ihc-dt.cluster-3.de/auth/realms/odari")
 XGT_VALID_AZP_VALUES = os.getenv("XGT_VALID_AZP_VALUES", "stargate")
 XGT_VALID_REQUEST_PATHS = os.getenv("XGT_VALID_REQUEST_PATHS", "/dtagtmf/oda-echoservice/v1/echo /dtagtmf/oda-compa/v1/echo /dtagtmf/oda-compb/v1/echo")
 
-print(f'XGT_TRUSTED_ISSUERS: "XGT_TRUSTED_ISSUERS"') 
-print(f'XGT_VALID_AZPS: "XGT_VALID_AZPS"') 
-print(f'XGT_VALID_REQUEST_PATHS: "XGT_VALID_REQUEST_PATHS"')
+print(f'XGT_TRUSTED_ISSUERS: "{XGT_TRUSTED_ISSUERS}"') 
+print(f'XGT_VALID_AZPS: "{XGT_VALID_AZPS}"') 
+print(f'XGT_VALID_REQUEST_PATHS: "{XGT_VALID_REQUEST_PATHS}"')
  
 trusted_issuers = XGT_TRUSTED_ISSUERS.split(" ")
 valid_azps = XGT_VALID_AZP_VALUES.split(" ")

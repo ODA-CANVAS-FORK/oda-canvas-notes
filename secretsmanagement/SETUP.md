@@ -256,6 +256,15 @@ kubectl delete -f TEMP/code-server/virtualservice/code-server-vs.yaml
 kubectl delete ns code-server
 ```
 
+# namespace can not be deleted
+
+list all objects in ns:
+
+```
+kubectl api-resources --verbs=list --namespaced -o name | xargs -n 1 kubectl get --show-kind --ignore-not-found -n <NAMESPACE>
+```
+
+
 # Others
 
 do not uninstall istio, because it removes the loadbalancer carrying the external IP.
