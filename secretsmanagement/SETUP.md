@@ -34,6 +34,11 @@ helm dependency update --skip-refresh ./charts/canvas-oda
 helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set api-operator-istio.deployment.hostName=*.ihc-dt.cluster-3.de --set api-operator-istio.deployment.credentialName=wc-ihc-dt-cluster-3-de-tls --set api-operator-istio.configmap.publicHostname=components.ihc-dt.cluster-3.de --set=api-operator-istio.deployment.httpsRedirect=false --set=dependentapi-simple-operator.serviceInventoryAPI.serverUrl=https://canvas-info.ihc-dt.cluster-3.de
 ```
 
+### deploy canvas from public repo
+
+```
+helm upgrade --install canvas oda-canvas/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set api-operator-istio.deployment.hostName=*.ihc-dt.cluster-3.de --set api-operator-istio.deployment.credentialName=wc-ihc-dt-cluster-3-de-tls --set api-operator-istio.configmap.publicHostname=components.ihc-dt.cluster-3.de --set=api-operator-istio.deployment.httpsRedirect=false --set=dependentapi-simple-operator.serviceInventoryAPI.serverUrl=https://canvas-info.ihc-dt.cluster-3.de
+```
 
 
 # [opt] change public url for info service
@@ -277,4 +282,32 @@ run a pod with curl
 ```
 kubectl delete pod --ignore-not-found -n canvas-vault temp-pod || true
 kubectl run -it --rm -n canvas-vault --image=tmforumodacanvas/baseimage-kubectl-curl:1.30.5 temp-pod --overrides="{\"spec\":{\"serviceAccount\":\"canvas-vault-hc-pih-sa\"}}" -- /bin/sh
+```
+
+# helm
+
+## add all repos
+
+```
+helm repo add jetstack https://charts.jetstack.io
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo add oda-canvas https://tmforum-oda.github.io/oda-canvas
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo add oda-components https://tmforum-oda.github.io/reference-example-components
+helm repo add hashicorp https://helm.releases.hashicorp.com
+helm repo add projectcalico https://docs.tigera.io/calico/charts
+helm repo add istio https://istio-release.storage.googleapis.com/charts
+```
+
+## remove all repos
+
+```
+helm repo remove jetstack 
+helm repo remove bitnami 
+helm repo remove oda-canvas 
+helm repo remove prometheus-community 
+helm repo remove oda-components 
+helm repo remove hashicorp 
+helm repo remove projectcalico 
+helm repo remove istio 
 ```
