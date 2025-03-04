@@ -9,9 +9,9 @@ data:
     #!/bin/sh
     cat <<EOF | envsubst > /usr/share/nginx/html/index.html
     <HTML>
-      <HEAD><TITLE>Vault (Token-Page)</TITLE></HEAD>
+      <HEAD><TITLE>Keycloak (Landing)</TITLE></HEAD>
       <BODY>
-        <H1>Keycloak (password page)</H1>
+        <H1>Keycloak (Landing)</H1>
         <p>The admin password is:</p>
         <p> <span style="border: 1px solid black;padding:2;">$LOGIN_TOKEN</span> </p>
         <p>Continue to <a href="/auth">Keycloak login</a></p>
