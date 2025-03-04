@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1
+kind: DestinationRule
+metadata:
+  namespace: components
+  name: demo-b-add-https
+spec:
+  host: "*"
+  workloadSelector:
+    matchLabels:
+      app: demo-b-productcatalogmanagement
+  trafficPolicy:
+    portLevelSettings:
+    - port:
+        number: 80
+      tls:
+        mode: SIMPLE # initiates HTTPS when accessing echo.free.beeceptor.com

@@ -1,21 +1,21 @@
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
-  namespace: echoservice
-  name: echoservice-vs
+  namespace: grafana
+  name: grafana-vs
   labels:
-    app: echoservice
+    app: grafana
 spec:
   gateways:
   - components/component-gateway
   hosts:
-  - echoservice.ihc-dt.cluster-1.de
+  - grafana.{{ .Values.domain }}
   http:
   - match:
     - uri:
         prefix: /
     route:
     - destination:
-        host: echoservice.echoservice.svc.cluster.local
+        host: kube-prometheus-stack-grafana.grafana.svc.cluster.local
         port:
           number: 80

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: virtual-services-for-others
+description: Virtual Services for Others
+type: application
+version: 0.1.0
+appVersion: 0.1.0

@@ -1,8 +1,11 @@
+import json
+import requests
+
+from werkzeug.exceptions import Unauthorized 
+
 import jwt
 from jwt import ExpiredSignatureError, InvalidSignatureError
 
-import requests
-from werkzeug.exceptions import Unauthorized 
 
 
 class XGatewayTokenValidator:
@@ -15,10 +18,11 @@ class XGatewayTokenValidator:
     # pip install cryptography
     # pip install requests
     """ 
-    def __init__(self, trusted_issuers:list = None, valid_azps:list = None, valid_request_paths:list = None):
+    def __init__(self, trusted_issuers:list = None, valid_azps:list = None, valid_request_paths:list = None, valid_auds:list = None):
         self.trusted_issuers = trusted_issuers
         self.valid_azps = valid_azps
         self.valid_request_paths = valid_request_paths
+        self.valid_auds = valid_auds
         self.cached_pubkeys = {}
     def checkIssuer(self, issuer:str):
         if not self.trusted_issuers:
@@ -63,14 +67,15 @@ class XGatewayTokenValidator:
             token = self.extractToken(xgt_token)
             # hdr = jwt.get_unverified_header(token)
             payload = jwt.decode(token, options={"verify_signature": False})
-            # print(json.dumps(payload, indent=2))
+            print(json.dumps(payload, indent=2))
             self.checkIssuer(payload["iss"])
             self.checkAzp(payload["azp"])
-            self.checkRequestPath(payload["requestPath"])
+            if self.valid_request_paths:
+                self.checkRequestPath(payload["requestPath"])
             pubkey = self.getPublicKey(payload["iss"])
             
             try:
-                chk = jwt.decode(token, key=pubkey, algorithms=['RS256', ])
+                chk = jwt.decode(token, key=pubkey, algorithms=['RS256', ], audience=self.valid_auds)
                 # chk is same as payload
                 return chk
             except ExpiredSignatureError:
@@ -81,10 +86,10 @@ class XGatewayTokenValidator:
                     return self.validateXGT(xgt_token, use_publickey_from_cache = False)
                 raise Unauthorized(description=f"signature could not be verified'")
         except Unauthorized as e:
-            print(f"XGT-ERROR: {str(e.description)}")
             print(f"PAYLOAD: {payload}")
+            print(f"XGT-ERROR: {str(e.description)}")
             raise e
         except Exception as e:
-            print(str(e))
             print(f"PAYLOAD: {payload}")
+            print(str(e))
             raise Unauthorized(description="error in x-gateway-token")

@@ -31,20 +31,34 @@ helm dependency update --skip-refresh ./charts/apisix-gateway
 helm dependency update --skip-refresh ./charts/canvas-vault
 helm dependency update --skip-refresh ./charts/canvas-oda
 
-helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set api-operator-istio.deployment.hostName=*.ihc-dt.cluster-3.de --set api-operator-istio.deployment.credentialName=wc-ihc-dt-cluster-3-de-tls --set api-operator-istio.configmap.publicHostname=components.ihc-dt.cluster-3.de --set=api-operator-istio.deployment.httpsRedirect=false --set=dependentapi-simple-operator.serviceInventoryAPI.serverUrl=https://canvas-info.ihc-dt.cluster-3.de
+helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set api-operator-istio.deployment.hostName=*.ihc-dt.cluster-1.de --set api-operator-istio.deployment.credentialName=wc-ihc-dt-cluster-1-de-tls --set api-operator-istio.configmap.publicHostname=components.ihc-dt.cluster-1.de --set=api-operator-istio.deployment.httpsRedirect=false --set=dependentapi-simple-operator.serviceInventoryAPI.serverUrl=https://canvas-info.ihc-dt.cluster-1.de
 ```
 
 ### deploy canvas from public repo
 
 ```
-helm upgrade --install canvas oda-canvas/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set api-operator-istio.deployment.hostName=*.ihc-dt.cluster-3.de --set api-operator-istio.deployment.credentialName=wc-ihc-dt-cluster-3-de-tls --set api-operator-istio.configmap.publicHostname=components.ihc-dt.cluster-3.de --set=api-operator-istio.deployment.httpsRedirect=false --set=dependentapi-simple-operator.serviceInventoryAPI.serverUrl=https://canvas-info.ihc-dt.cluster-3.de
+helm upgrade --install canvas oda-canvas/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set api-operator-istio.deployment.hostName=*.ihc-dt.cluster-1.de --set api-operator-istio.deployment.credentialName=wc-ihc-dt-cluster-1-de-tls --set api-operator-istio.configmap.publicHostname=components.ihc-dt.cluster-1.de --set=api-operator-istio.deployment.httpsRedirect=false --set=dependentapi-simple-operator.serviceInventoryAPI.serverUrl=https://canvas-info.ihc-dt.cluster-1.de
+```
+
+
+### install virtual services for canvas
+
+```
+helm upgrade --install -n canvas canvas-vs ../oda-canvas-notes/virtualservices/canvas --set=domain=ihc-dt.cluster-1.de
+```
+
+
+### install other virtual services
+
+```
+helm upgrade --install other-vs ../oda-canvas-notes/virtualservices/others --set=domain=ihc-dt.cluster-1.de
 ```
 
 
 # [opt] change public url for info service
 
 ```
-kubectl set env deployment/canvas-info-service -n canvas SERVER_URL=https://canvas-info.ihc-dt.cluster-3.de
+kubectl set env deployment/canvas-info-service -n canvas SERVER_URL=https://canvas-info.ihc-dt.cluster-1.de
 ```
 
 # install virtual-services
@@ -74,7 +88,7 @@ kubectl apply -f ../oda-canvas-notes/apps/echoservice/k8s/ihc-dt2
 ## patch api operator
 
 ```
-kubectl patch configmap/api-operator-istio-configmap -n canvas --type merge -p "{\"data\":{\"APIOPERATORISTIO_PUBLICHOSTNAME\":\"components.ihc-dt.cluster-3.de\"}}"
+kubectl patch configmap/api-operator-istio-configmap -n canvas --type merge -p "{\"data\":{\"APIOPERATORISTIO_PUBLICHOSTNAME\":\"components.ihc-dt.cluster-1.de\"}}"
 kubectl rollout restart deployment -n canvas api-operator-istio
 ```
 
@@ -85,8 +99,8 @@ as patch
 
 
 ```
-kubectl patch gateway/component-gateway -n components --type json -p '[{"op": "replace","path": "/spec/servers/0/hosts/0","value": "*.ihc-dt.cluster-3.de"}]'
-kubectl patch gateway/component-gateway -n components --type json -p '[{"op": "add","path": "/spec/servers/1","value": {"hosts": ["*.ihc-dt.cluster-3.de"],"port": {"name": "https","number": 443,"protocol": "HTTPS"},"tls": {"credentialName": "wc-ihc-dt-cluster-3-de-tls","mode": "SIMPLE"}}}]'
+kubectl patch gateway/component-gateway -n components --type json -p '[{"op": "replace","path": "/spec/servers/0/hosts/0","value": "*.ihc-dt.cluster-1.de"}]'
+kubectl patch gateway/component-gateway -n components --type json -p '[{"op": "add","path": "/spec/servers/1","value": {"hosts": ["*.ihc-dt.cluster-1.de"],"port": {"name": "https","number": 443,"protocol": "HTTPS"},"tls": {"credentialName": "wc-ihc-dt-cluster-1-de-tls","mode": "SIMPLE"}}}]'
 ```
 
 or manually (Windows)
@@ -98,17 +112,17 @@ kubectl edit gateway -n components component-gateway
 spec:
   ...
   - hosts:
-[*] - '*.ihc-dt.cluster-3.de'
+[*] - '*.ihc-dt.cluster-1.de'
 ...
 [+++]
   - hosts:
-    - '*.ihc-dt.cluster-3.de'
+    - '*.ihc-dt.cluster-1.de'
     port:
       name: https
       number: 443
       protocol: HTTPS
     tls:
-      credentialName: wc-ihc-dt-cluster-3-de-tls
+      credentialName: wc-ihc-dt-cluster-1-de-tls
       mode: SIMPLE
 ```
 
@@ -128,10 +142,10 @@ kubectl apply -f ../oda-canvas-notes/secretsmanagement/virtualservices/canvas-in
 
 ### URLs
 
-* https://canvas-keycloak.ihc-dt.cluster-3.de/auth/
-* https://canvas-vault-hc.ihc-dt.cluster-3.de/
-** https://canvas-vault-hc.ihc-dt.cluster-3.de/ui/
-* https://canvas-info.ihc-dt.cluster-3.de/api-docs/
+* https://canvas-keycloak.ihc-dt.cluster-1.de/auth/
+* https://canvas-vault-hc.ihc-dt.cluster-1.de/
+** https://canvas-vault-hc.ihc-dt.cluster-1.de/ui/
+* https://canvas-info.ihc-dt.cluster-1.de/api-docs/
 
 
 
@@ -153,7 +167,7 @@ spec:
   gateways:
   - components/component-gateway
   hosts:
-  - canvas-vault-hc.ihc-dt.cluster-3.de
+  - canvas-vault-hc.ihc-dt.cluster-1.de
   http:
   - match:
     - uri:

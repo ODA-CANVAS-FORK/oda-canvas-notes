@@ -16,6 +16,15 @@ spec:
     spec:
       containers:
       - name: echoservice
+        env:
+        - name: XGT_TRUSTED_ISSUERS
+          value: http://canvas-keycloak.canvas.svc.cluster.local:8083/auth/realms/odari https://canvas-keycloak.ihc-dt.cluster-1.de/auth/realms/odari
+        - name: XGT_VALID_AZP_VALUES
+          value: demo-a-productcatalogmanagement demo-b-productcatalogmanagement
+        - name: XGT_VALID_REQUEST_PATHS
+          value: 
+        - name: XGT_VALID_AUDS
+          value: account
         # image: ocfork/echoservice:v0.1.0 
         image: ocfork/echoservice 
         imagePullPolicy: Always

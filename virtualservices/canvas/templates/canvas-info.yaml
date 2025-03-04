@@ -1,21 +1,21 @@
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  namespace: echoservice
-  name: echoservice-vs
   labels:
-    app: echoservice
+    app: canvas-info
+  name: canvas-info-vs
+  namespace: canvas
 spec:
   gateways:
   - components/component-gateway
   hosts:
-  - echoservice.ihc-dt.cluster-1.de
+  - canvas-info.{{ .Values.domain }}
   http:
   - match:
     - uri:
         prefix: /
     route:
     - destination:
-        host: echoservice.echoservice.svc.cluster.local
+        host: info.canvas.svc.cluster.local
         port:
           number: 80

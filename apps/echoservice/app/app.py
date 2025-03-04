@@ -16,19 +16,22 @@ from token_validator import XGatewayTokenValidator
 app = Flask(__name__)
 
 
-XGT_TRUSTED_ISSUERS = os.getenv("XGT_TRUSTED_ISSUERS","https://canvas-keycloak.ihc-dt.cluster-3.de/auth/realms/odari")
-XGT_VALID_AZP_VALUES = os.getenv("XGT_VALID_AZP_VALUES", "stargate")
-XGT_VALID_REQUEST_PATHS = os.getenv("XGT_VALID_REQUEST_PATHS", "/dtagtmf/oda-echoservice/v1/echo /dtagtmf/oda-compa/v1/echo /dtagtmf/oda-compb/v1/echo")
+XGT_TRUSTED_ISSUERS = os.getenv("XGT_TRUSTED_ISSUERS","https://canvas-keycloak.ihc-dt.cluster-3.de/auth/realms/odari https://canvas-keycloak.ihc-dt.cluster-1.de/auth/realms/odari")
+XGT_VALID_AZP_VALUES = os.getenv("XGT_VALID_AZP_VALUES", None) # "stargate")
+XGT_VALID_REQUEST_PATHS = os.getenv("XGT_VALID_REQUEST_PATHS", None) # "/dtagtmf/oda-echoservice/v1/echo /dtagtmf/oda-compa/v1/echo /dtagtmf/oda-compb/v1/echo")
+XGT_VALID_AUDS = os.getenv("XGT_VALID_AUDS", "account")
 
 print(f'XGT_TRUSTED_ISSUERS: "{XGT_TRUSTED_ISSUERS}"') 
-print(f'XGT_VALID_AZPS: "{XGT_VALID_AZPS}"') 
+print(f'XGT_VALID_AZPS: "{XGT_VALID_AZP_VALUES}"') 
 print(f'XGT_VALID_REQUEST_PATHS: "{XGT_VALID_REQUEST_PATHS}"')
+print(f'XGT_VALID_AUDS: "{XGT_VALID_AUDS}"')
  
-trusted_issuers = XGT_TRUSTED_ISSUERS.split(" ")
-valid_azps = XGT_VALID_AZP_VALUES.split(" ")
-valid_request_paths = XGT_VALID_REQUEST_PATHS.split(" ")
+trusted_issuers = XGT_TRUSTED_ISSUERS.split(" ") if XGT_TRUSTED_ISSUERS else None
+valid_azps = XGT_VALID_AZP_VALUES.split(" ") if XGT_VALID_AZP_VALUES else None
+valid_request_paths = XGT_VALID_REQUEST_PATHS.split(" ") if XGT_VALID_REQUEST_PATHS else None
+valid_auds = XGT_VALID_AUDS.split(" ") if XGT_VALID_AUDS else None
 
-xgt_validator = XGatewayTokenValidator(trusted_issuers, valid_azps, valid_request_paths)
+xgt_validator = XGatewayTokenValidator(trusted_issuers, valid_azps, valid_request_paths, valid_auds)
 
 
 STYLE = f" style=\"background-color: green;\""
@@ -77,25 +80,28 @@ def html_img():
 @app.route("/echo", methods=["POST"])
 def echo():
     print("----------")
+    echo_header = {}
     for h in request.headers:
         print(f"{h[0]}: {h[1]}")
+        echo_header[h[0]] = h[1]
     print("----------")
     if request.is_json:
         print(request.json)
+        echo_body = json.dumps(request.json)
     else:
         print(request.form)
+        echo_body = request.data.decode()
     print("----------")
     xgt_token = request.headers.get("X-Gateway-Token")  # request.headers["x-gateway-token"] 
     if not xgt_token:
         xgt_token = request.headers.get("Authorization")    
     print(xgt_token)
     payload = xgt_validator.validateXGT(xgt_token) 
-    print(json.dumps(payload, indent=2))
-    request_json = request.json
-    txt = request_json["text"]
+    #print(json.dumps(payload, indent=2))
     now = timestamp=datetime.datetime.now().isoformat('T')
     response = {
-        "echo": txt, 
+        "echo_header": echo_header,
+        "echo_body": echo_body, 
         "timestamp": now
     }
     
