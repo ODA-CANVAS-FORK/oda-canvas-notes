@@ -1,0 +1,26 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: echoservice-tls
+  namespace: echoservice
+spec:
+  commonName: echoservice-tls
+  dnsNames:
+  - echoservice-tls
+  - echoservice-tls.echoservice
+  - echoservice-tls.echoservice.svc
+  - echoservice-tls.echoservice.svc.cluster.local
+  duration: 21600h0m0s
+  issuerRef:
+    name: canvas-cert-manager-init-selfsigned-cluster
+    kind: ClusterIssuer
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS1
+    size: 4096
+  secretName: echoservice-tls
+  usages:
+  - digital signature
+  - content commitment
+  - key encipherment
+  - server auth

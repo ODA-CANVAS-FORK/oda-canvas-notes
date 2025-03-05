@@ -1,0 +1,94 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: echoservice
+  name: echoservice-landing-page-init-cm
+data:
+  init.sh: |
+    #!/bin/sh
+    cat <<EOF | envsubst > /usr/share/nginx/html/index.html
+    <HTML>
+      <HEAD><TITLE>Vault (Token-Page)</TITLE></HEAD>
+      <BODY>
+        <H1>Vault (token page)</H1>
+        <p>Your login token is:</p>
+        <p> <span style="border: 1px solid black;padding:2;">$LOGIN_TOKEN</span> </p>
+        <p>Continue to <a href="/ui">Vault login</a></p>
+      </BODY>
+    </HTML>
+    EOF
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: echoservice
+  name: echoservice-landing-page
+  labels:
+    app: echoservice-landing-page
+spec:
+  selector:
+    app: echoservice-landing-page
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+    protocol: TCP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: echoservice
+  name: echoservice-landing-page
+  labels: 
+    app: echoservice-landing-page
+spec:
+  selector:
+    matchLabels:
+      app: echoservice-landing-page
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: echoservice-landing-page
+    spec:
+      containers:
+        - name: echoservice-landing-page
+          image: nginx
+          env:
+          - name: LOGIN_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: echoservice-hc-secrets
+                key: rootToken
+          volumeMounts:
+          - name: init-script
+            mountPath: /docker-entrypoint.d/init
+      volumes:
+        - name: init-script
+          configMap:
+            name: echoservice-landing-page-init-cm
+            defaultMode: 0777
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  labels:
+    app: echoservice-landing-page
+  name: echoservice-landing-page-vs
+  namespace: echoservice
+spec:
+  gateways:
+  - components/component-gateway
+  hosts:
+  - echoservice-hc.ihc-dt.cluster-3.de
+  http:
+  - match:
+    - uri:
+        exact: /
+    route:
+    - destination:
+        host: echoservice-landing-page.echoservice.svc.cluster.local
+        port:
+          number: 80

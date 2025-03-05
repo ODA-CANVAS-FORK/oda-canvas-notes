@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: echoservice
+  name: echoservice-tls	
+  labels:
+    app: echoservice-ngx
+spec:
+  type: ClusterIP
+  selector:
+    app: echoservice-ngx
+  ports:
+  - name: http2
+    port: 80
+    targetPort: 8080
+    protocol: TCP
+  - name: https
+    port: 443
+    targetPort: 8443
+    protocol: TCP

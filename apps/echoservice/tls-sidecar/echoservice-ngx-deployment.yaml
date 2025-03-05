@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: echoservice
+  name: echoservice-ngx-deployment
+spec:
+  selector:
+    matchLabels:
+      app: echoservice-ngx
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: echoservice-ngx
+    spec:
+      containers:
+      - name: echoservice-ngx
+        env:
+        - name: XGT_TRUSTED_ISSUERS
+          value: http://canvas-keycloak.canvas.svc.cluster.local:8083/auth/realms/odari https://canvas-keycloak.ihc-dt.cluster-1.de/auth/realms/odari
+        - name: XGT_VALID_AZP_VALUES
+          value: demo-a-productcatalogmanagement demo-b-productcatalogmanagement
+        - name: XGT_VALID_REQUEST_PATHS
+          value: 
+        - name: XGT_VALID_AUDS
+          value: account
+        # image: ocfork/echoservice:v0.1.0 
+        image: ocfork/echoservice 
+        imagePullPolicy: Always
+      - name: nginx-proxy
+        image: nginx # public.ecr.aws/nginx/nginx:1.23
+        ports:
+        - name: https
+          containerPort: 8443
+        volumeMounts:
+        - name: nginx-config
+          mountPath: /etc/nginx/conf.d
+          readOnly: true
+        - name: certs
+          mountPath: /certs
+          readOnly: true  
+      volumes:
+      - configMap:
+          name: nginx-sidecar-conf
+        name: nginx-config
+      - name: certs
+        secret:
+          secretName:  echoservice-tls
