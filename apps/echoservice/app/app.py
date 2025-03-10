@@ -12,11 +12,13 @@ from requests.auth import HTTPBasicAuth
 
 from token_validator import XGatewayTokenValidator
 
+from werkzeug.exceptions import Unauthorized 
+
 
 app = Flask(__name__)
 
 
-XGT_TRUSTED_ISSUERS = os.getenv("XGT_TRUSTED_ISSUERS","https://canvas-keycloak.ihc-dt.cluster-3.de/auth/realms/odari https://canvas-keycloak.ihc-dt.cluster-1.de/auth/realms/odari")
+XGT_TRUSTED_ISSUERS = os.getenv("XGT_TRUSTED_ISSUERS","https://canvas-keycloak.ihc-dt.cluster-3.de/auth/realms/odari https://canvas-keycloak.ihc-dt.cluster-1.de/auth/realms/odari http://canvas-keycloak.canvas.svc.cluster.local:8083/auth/realms/odari")
 XGT_VALID_AZP_VALUES = os.getenv("XGT_VALID_AZP_VALUES", None) # "stargate")
 XGT_VALID_REQUEST_PATHS = os.getenv("XGT_VALID_REQUEST_PATHS", None) # "/dtagtmf/oda-echoservice/v1/echo /dtagtmf/oda-compa/v1/echo /dtagtmf/oda-compb/v1/echo")
 XGT_VALID_AUDS = os.getenv("XGT_VALID_AUDS", "account")
@@ -106,6 +108,57 @@ def echo():
     }
     
     return jsonify(response)
+
+
+def safe_get(default_value, dictionary, *paths):
+    if dictionary is None:
+        return default_value
+    result = dictionary
+    for path in paths:
+        if path not in result:
+            return default_value
+        result = result[path]
+    return result
+
+
+
+@app.route("/jedionly", methods=["POST"])
+def jedionly():
+    print("----------")
+    echo_header = {}
+    for h in request.headers:
+        print(f"{h[0]}: {h[1]}")
+        echo_header[h[0]] = h[1]
+    print("----------")
+    if request.is_json:
+        print(request.json)
+        echo_body = json.dumps(request.json)
+    else:
+        print(request.form)
+        echo_body = request.data.decode()
+    print("----------")
+    xgt_token = request.headers.get("X-Gateway-Token")  # request.headers["x-gateway-token"] 
+    if not xgt_token:
+        xgt_token = request.headers.get("Authorization")    
+    print(xgt_token)
+    payload = xgt_validator.validateXGT(xgt_token) 
+    roles = safe_get(None, payload, "realm_access", "roles")
+    print(f"ROLES: {roles}")
+    if "jedi" not in roles:
+        raise Unauthorized(description=f"you are not a jedi")
+
+    
+    #print(json.dumps(payload, indent=2))
+    now = timestamp=datetime.datetime.now().isoformat('T')
+    response = {
+        "echo_header": echo_header,
+        "echo_body": echo_body, 
+        "roles": roles,
+        "timestamp": now,
+    }
+    
+    return jsonify(response)
+
 
 
 

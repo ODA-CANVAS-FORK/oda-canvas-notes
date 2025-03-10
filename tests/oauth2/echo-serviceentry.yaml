@@ -6,6 +6,8 @@ metadata:
 spec:
   hosts:
   - "echo.free.beeceptor.com"
+  - "echoservice.ihc-dt.cluster-1.de"
+  - "echoservice-tls.echoservice.svc.cluster.local"
   ports:
   - number: 80
     name: http-port

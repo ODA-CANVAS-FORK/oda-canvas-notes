@@ -75,7 +75,7 @@ class XGatewayTokenValidator:
             pubkey = self.getPublicKey(payload["iss"])
             
             try:
-                chk = jwt.decode(token, key=pubkey, algorithms=['RS256', ], audience=self.valid_auds)
+                chk = jwt.decode(token, key=pubkey, algorithms=['RS256', ], audience=self.valid_auds) # , options={"verify_signature": False})
                 # chk is same as payload
                 return chk
             except ExpiredSignatureError:
@@ -91,5 +91,5 @@ class XGatewayTokenValidator:
             raise e
         except Exception as e:
             print(f"PAYLOAD: {payload}")
-            print(str(e))
+            print(f"{type(e)}: {str(e)}")
             raise Unauthorized(description="error in x-gateway-token")
