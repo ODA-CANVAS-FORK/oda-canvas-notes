@@ -26,6 +26,6 @@ spec:
         - name: XGT_VALID_AUDS
           value: account
         # image: ocfork/echoservice:v0.1.0 
-        image: ocfork/echoservice 
+        image: ocfork/echoservice:v0.1.1-rc 
         imagePullPolicy: Always
   

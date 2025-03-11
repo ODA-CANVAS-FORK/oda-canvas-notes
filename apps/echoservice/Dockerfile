@@ -1,5 +1,9 @@
 FROM python:3.12-alpine
 
+
+RUN apk update && \
+    apk add bash curl jq
+
 # Copy the current directory contents into the container at /app
 COPY /app /app
 
