@@ -51,7 +51,7 @@ helm upgrade --install -n canvas canvas-vs ../oda-canvas-notes/virtualservices/c
 ### install other virtual services
 
 ```
-helm upgrade --install other-vs ../oda-canvas-notes/virtualservices/others --set=domain=ihc-dt.cluster-1.de
+helm upgrade --install -n default other-vs ../oda-canvas-notes/virtualservices/others --set=domain=ihc-dt.cluster-1.de
 ```
 
 
