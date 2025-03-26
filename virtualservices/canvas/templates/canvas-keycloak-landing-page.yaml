@@ -80,7 +80,7 @@ metadata:
     app: canvas-keycloak-landing-page
 spec:
   gateways:
-  - components/component-gateway
+  - canvas/component-gateway
   hosts:
   - canvas-keycloak.{{ .Values.domain }}
   http:
