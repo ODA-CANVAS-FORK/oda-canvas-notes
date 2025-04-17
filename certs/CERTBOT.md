@@ -6,5 +6,5 @@ sudo certbot certonly --manual --preferred-challenges=dns --email ferenc.hechler
 sudo cp /etc/letsencrypt/live/k8s.cluster-1.de/fullchain.pem fullchain.pem
 sudo cp /etc/letsencrypt/live/k8s.cluster-1.de/privkey.pem privkey.pem
 sudo chown ferenc:users *.pem
-kubectl create secret -n istio-ingress tls wc-k8s-tls --key="privkey.pem" --cert="fullchain.pem"
+kubectl create secret -n istio-ingress tls domain-tls-secret --key="privkey.pem" --cert="fullchain.pem"
 ```

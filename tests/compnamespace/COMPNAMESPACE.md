@@ -38,7 +38,16 @@ helm dependency update --skip-refresh ./charts/canvas-oda
 without canvas-vault for speed up 
 
 ```
-helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set api-operator-istio.deployment.hostName=*.ihc-dt.cluster-1.de --set api-operator-istio.deployment.credentialName=wc-ihc-dt-cluster-1-de-tls --set api-operator-istio.configmap.publicHostname=components.ihc-dt.cluster-1.de --set=api-operator-istio.deployment.httpsRedirect=false --set=dependentapi-simple-operator.serviceInventoryAPI.serverUrl=https://canvas-info.ihc-dt.cluster-1.de --set=canvas-vault.enabled=false 
+export DOMAIN=ihc-dt.cluster-2.de
+helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set api-operator-istio.deployment.hostName=*.$DOMAIN --set api-operator-istio.deployment.credentialName=domain-tls-secret --set api-operator-istio.configmap.publicHostname=components.$DOMAIN --set=api-operator-istio.deployment.httpsRedirect=false --set=dependentapi-simple-operator.serviceInventoryAPI.serverUrl=https://canvas-info.$DOMAIN --set=canvas-vault.enabled=false 
+```
+
+
+windows:
+
+```
+set DOMAIN=ihc-dt.cluster-2.de
+helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set api-operator-istio.deployment.hostName=*.%DOMAIN% --set api-operator-istio.deployment.credentialName=domain-tls-secret --set api-operator-istio.configmap.publicHostname=components.%DOMAIN% --set=api-operator-istio.deployment.httpsRedirect=false --set=dependentapi-simple-operator.serviceInventoryAPI.serverUrl=https://canvas-info.%DOMAIN% --set=canvas-vault.enabled=false 
 ```
 
 ```
