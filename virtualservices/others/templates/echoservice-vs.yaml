@@ -7,7 +7,7 @@ metadata:
     app: echoservice
 spec:
   gateways:
-  - canvas/component-gateway
+  - {{ .Values.componentGateway }}
   hosts:
   - echoservice.{{ .Values.domain }}
   http:

@@ -79,6 +79,7 @@ windows
 ```
 set DOMAIN=ihc-dt.cluster-2.de
 helm upgrade --install -n canvas canvas-vs ../oda-canvas-notes/virtualservices/canvas --set=domain=%DOMAIN%
+# OLD: helm upgrade --install -n canvas canvas-vs ../oda-canvas-notes/virtualservices/canvas --set=domain=%DOMAIN% --set=componentGateway=components/component-gateway
 ```
 
 
@@ -94,6 +95,7 @@ windows
 ```
 set DOMAIN=ihc-dt.cluster-2.de
 helm upgrade --install -n default other-vs ../oda-canvas-notes/virtualservices/others --set=domain=%DOMAIN%
+# OLD: helm upgrade --install -n default other-vs ../oda-canvas-notes/virtualservices/others --set=domain=%DOMAIN% --set=componentGateway=components/component-gateway
 ```
 
 
@@ -184,10 +186,10 @@ kubectl apply -f ../oda-canvas-notes/secretsmanagement/virtualservices/canvas-in
 
 ### URLs
 
-* https://canvas-keycloak.ihc-dt.cluster-1.de/auth/
-* https://canvas-vault-hc.ihc-dt.cluster-1.de/
-** https://canvas-vault-hc.ihc-dt.cluster-1.de/ui/
-* https://canvas-info.ihc-dt.cluster-1.de/api-docs/
+* https://canvas-keycloak.ihc-dt.cluster-2.de/auth/
+* https://canvas-vault-hc.ihc-dt.cluster-2.de/
+** https://canvas-vault-hc.ihc-dt.cluster-2.de/ui/
+* https://canvas-info.ihc-dt.cluster-2.de/api-docs/
 
 
 
@@ -266,7 +268,7 @@ TEMP/code-server/install-code-server.sh
 ## Deploy Component with secrets management
 
 ```
-helm upgrade --install prodcat -n components --create-namespace feature-definition-and-test-kit/testData/productcatalog-v1beta3-sman
+helm upgrade --install prodcat -n components --create-namespace feature-definition-and-test-kit/testData/productcatalog-v1-sman
 ```
 
 

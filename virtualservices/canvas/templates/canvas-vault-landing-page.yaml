@@ -80,7 +80,7 @@ metadata:
   namespace: canvas-vault
 spec:
   gateways:
-  - canvas/component-gateway
+  - {{ .Values.componentGateway }}
   hosts:
   - canvas-vault-hc.{{ .Values.domain }}
   http:

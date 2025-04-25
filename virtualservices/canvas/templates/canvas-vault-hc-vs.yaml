@@ -38,7 +38,7 @@ metadata:
     app: canvas-vault-hc
 spec:
   gateways:
-  - canvas/component-gateway
+  - {{ .Values.componentGateway }}
   hosts:
   - canvas-vault-hc.{{ .Values.domain }}
   http:

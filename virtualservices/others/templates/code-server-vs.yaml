@@ -7,7 +7,7 @@ metadata:
     app: code-server
 spec:
   gateways:
-  - canvas/component-gateway
+  - {{ .Values.componentGateway }}
   hosts:
   - code-server.{{ .Values.domain }}
   http:
