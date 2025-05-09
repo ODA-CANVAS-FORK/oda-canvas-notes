@@ -9,7 +9,7 @@ helm upgrade --install demo-a -n components feature-definition-and-test-kit/test
 ## query deployed services
 
 ```
-curl -sX GET   https://canvas-info.ihc-dt.cluster-3.de/service -H "accept:application/json"   | jq -r ".[].id"
+curl -sX GET   https://canvas-info.ihc-dt.cluster-2.de/service -H "accept:application/json"   | jq -r ".[].id"
 ```
 
 ## deploy consumer (component with dependency to exposed api)
@@ -24,13 +24,13 @@ helm install demo-b -n components feature-definition-and-test-kit/testData/produ
 kubectl get dependentapis -n components
 
   NAME                                                           READY   AGE     SVCINVID                               URL
-  testdapi-productcatalogmanagement-downstreamproductcatalog     true    5m33s   3b8b010d-d8d0-410e-a256-0afdf84158f8   http://components.ihc-dt.cluster-3.de/ctk-productcatalogmanagement/tmf-api/productCatalogManagement/v4
+  testdapi-productcatalogmanagement-downstreamproductcatalog     true    5m33s   3b8b010d-d8d0-410e-a256-0afdf84158f8   http://components.ihc-dt.cluster-2.de/ctk-productcatalogmanagement/tmf-api/productCatalogManagement/v4
 ```
 
 ## query deployed services
 
 ```
-curl -sX 'GET'   'https://canvas-info.ihc-dt.cluster-3.de/tmf-api/serviceInventoryManagement/v5/service'   -H 'accept: application/json' | jq -r '.[].id'
+curl -sX 'GET'   'https://canvas-info.ihc-dt.cluster-2.de/tmf-api/serviceInventoryManagement/v5/service'   -H 'accept: application/json' | jq -r '.[].id'
 
   3b8b010d-d8d0-410e-a256-0afdf84158f8
 ```
@@ -71,5 +71,5 @@ helm uninstall -n components demo-b
 ## query deployed services
 
 ```
-curl -sX GET   https://canvas-info.ihc-dt.cluster-3.de/service -H "accept:application/json"   | jq -r ".[].id"
+curl -sX GET   https://canvas-info.ihc-dt.cluster-2.de/service -H "accept:application/json"   | jq -r ".[].id"
 ```
