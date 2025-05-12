@@ -45,6 +45,19 @@ helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --s
 ```
 
 
+# APISIX
+
+```
+helm install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set=canvas-vault.enabled=false --set api-operator-istio.enabled=false --set apisix-gateway-install.enabled=true --set kong-gateway-install.enabled=false
+```
+
+# KONG
+
+```
+helm install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set=canvas-vault.enabled=false --set api-operator-istio.enabled=false --set apisix-gateway-install.enabled=false --set kong-gateway-install.enabled=true
+```
+
+
 ### deploy canvas from public repo
 
 ```

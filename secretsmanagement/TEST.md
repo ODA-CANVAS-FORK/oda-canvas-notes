@@ -52,6 +52,14 @@ export CUCUMBER_PUBLISH_TOKEN=c98985ee-d612-48db-9e21-12c41e84a639
 npm start
 ```
 
+
+### run tagged test:
+
+```
+npm start -- --tags '@UC003-F001'
+```
+
+
 ## Output:
 
 ```
