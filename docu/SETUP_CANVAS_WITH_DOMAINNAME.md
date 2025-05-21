@@ -44,6 +44,23 @@ helm upgrade --install canvas oda-canvas/canvas-oda -n canvas --create-namespace
 ```
 
 
+## deploy product catalog
+
+```
+helm repo add oda-components https://tmforum-oda.github.io/reference-example-components
+helm repo update
+helm upgrade --install pcat1 -n components --create-namespace oda-components/productcatalog 
+```
+
+```
+kubectl get exposedapis -n components
+```
+
+add /docs to url displayed to get swagger-ui:
+
+https://components.*****.cluster-2.de/pcat1-productcatalogmanagement/tmf-api/productCatalogManagement/v4/docs
+
+
 ## install virtual services for canvas
 
 ```
@@ -60,21 +77,6 @@ helm upgrade --install -n canvas canvas-vs oda-canvas-notes/virtualservices/canv
 cd ~/git
 helm upgrade --install -n default other-vs oda-canvas-notes/virtualservices/others --set=domain=$DOMAIN --set=componentGateway=components/component-gateway
 ```
-
-
-## deploy product catalog
-
-```
-helm repo add oda-components https://tmforum-oda.github.io/reference-example-components
-helm repo update
-helm upgrade --install pcat1 -n components --create-namespace oda-components/productcatalog 
-```
-
-```
-kubectl get exposedapis -n components
-```
-
-https://components.*****.cluster-2.de/pcat1-productcatalogmanagement/tmf-api/productCatalogManagement/v4/docs
 
 
 # Cleanup
