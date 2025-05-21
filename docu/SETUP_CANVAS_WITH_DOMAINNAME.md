@@ -8,18 +8,20 @@
 ```
 sudo apt install certbot
 
-mkdir ~/certs
+mkdir -p ~/certs
 cd ~/certs
 
-export DOMAIN=ihc-dt.cluster-2.de
+export DOMAIN=ihc-dt2.cluster-2.de
 export LETSENCRYPT_EMAIL=xxx...@...yyy.zz
+export TLS_SECRET_NAME=domain-tls-secret
 
 sudo certbot certonly --manual --preferred-challenges=dns --email $LETSENCRYPT_EMAIL --agree-tos -d *.$DOMAIN
 
 sudo cp /etc/letsencrypt/live/$DOMAIN/fullchain.pem ./fullchain.pem
 sudo cp /etc/letsencrypt/live/$DOMAIN/privkey.pem ./privkey.pem
 sudo chown $USER:users *.pem
-kubectl create secret -n istio-ingress tls domain-tls-secret --key="privkey.pem" --cert="fullchain.pem"
+kubectl delete secret  -n istio-ingress $TLS_SECRET_NAME --ignore-not-found=true
+kubectl create secret -n istio-ingress tls $TLS_SECRET_NAME --key="privkey.pem" --cert="fullchain.pem"
 ```
 
 output: 
@@ -38,21 +40,50 @@ helm repo add istio https://istio-release.storage.googleapis.com/charts
 helm repo add oda-canvas https://tmforum-oda.github.io/oda-canvas
 helm repo update
 
-helm upgrade --install canvas oda-canvas/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set api-operator-istio.deployment.hostName=*.$DOMAIN --set api-operator-istio.deployment.credentialName=domain-tls-secret --set api-operator-istio.configmap.publicHostname=components.$DOMAIN --set=api-operator-istio.deployment.httpsRedirect=false --set=dependentapi-simple-operator.serviceInventoryAPI.serverUrl=https://canvas-info.$DOMAIN
+helm upgrade --install canvas oda-canvas/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set api-operator-istio.deployment.hostName=*.$DOMAIN --set api-operator-istio.deployment.credentialName=$TLS_SECRET_NAME --set api-operator-istio.configmap.publicHostname=components.$DOMAIN --set=api-operator-istio.deployment.httpsRedirect=false --set=dependentapi-simple-operator.serviceInventoryAPI.serverUrl=https://canvas-info.$DOMAIN
 ```
 
 
 ## install virtual services for canvas
 
 ```
-helm upgrade --install -n canvas canvas-vs ../oda-canvas-notes/virtualservices/canvas --set=domain=$DOMAIN
+mkdir -p ~/git
+cd ~/git
+git clone https://github.com/ODA-CANVAS-FORK/oda-canvas-notes
+helm upgrade --install -n canvas canvas-vs oda-canvas-notes/virtualservices/canvas --set=domain=$DOMAIN  --set=componentGateway=components/component-gateway
 ```
 
 
 ## install other virtual services
 
 ```
-helm upgrade --install -n default other-vs ../oda-canvas-notes/virtualservices/others --set=domain=$DOMAIN
+cd ~/git
+helm upgrade --install -n default other-vs oda-canvas-notes/virtualservices/others --set=domain=$DOMAIN --set=componentGateway=components/component-gateway
 ```
 
+
+## deploy product catalog
+
+```
+helm repo add oda-components https://tmforum-oda.github.io/reference-example-components
+helm repo update
+helm upgrade --install pcat1 -n components --create-namespace oda-components/productcatalog 
+```
+
+```
+kubectl get exposedapis -n components
+```
+
+https://components.*****.cluster-2.de/pcat1-productcatalogmanagement/tmf-api/productCatalogManagement/v4/docs
+
+
+# Cleanup
+
+```
+#helm uninstall -n components ...
+helm uninstall -n canvas canvas-vs
+helm uninstall -n default other-vs
+helm uninstall -n canvas canvas
+kubectl delete ns components canvas-vault cert-manager canvas
+```
 
