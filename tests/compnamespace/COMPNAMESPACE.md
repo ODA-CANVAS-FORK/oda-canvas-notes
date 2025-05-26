@@ -39,7 +39,7 @@ without canvas-vault for speed up
 
 ```
 export DOMAIN=ihc-dt.cluster-2.de
-helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set api-operator-istio.deployment.hostName=*.$DOMAIN --set api-operator-istio.deployment.credentialName=domain-tls-secret --set api-operator-istio.configmap.publicHostname=components.$DOMAIN --set=api-operator-istio.deployment.httpsRedirect=false --set=dependentapi-simple-operator.serviceInventoryAPI.serverUrl=https://canvas-info.$DOMAIN --set=canvas-vault.enabled=false 
+helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set api-operator-istio.deployment.hostName=*.$DOMAIN --set api-operator-istio.deployment.credentialName=domain-tls-secret --set api-operator-istio.configmap.publicHostname=components.$DOMAIN --set=api-operator-istio.deployment.httpsRedirect=false --set=canvas-info-service.serverUrl=https://canvas-info.$DOMAIN --set=canvas-vault.enabled=false 
 ```
 
 
@@ -47,7 +47,7 @@ windows:
 
 ```
 set DOMAIN=ihc-dt.cluster-2.de
-helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set api-operator-istio.deployment.hostName=*.%DOMAIN% --set api-operator-istio.deployment.credentialName=domain-tls-secret --set api-operator-istio.configmap.publicHostname=components.%DOMAIN% --set=api-operator-istio.deployment.httpsRedirect=false --set=dependentapi-simple-operator.serviceInventoryAPI.serverUrl=https://canvas-info.%DOMAIN% --set=canvas-vault.enabled=false 
+helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set api-operator-istio.deployment.hostName=*.%DOMAIN% --set api-operator-istio.deployment.credentialName=domain-tls-secret --set api-operator-istio.configmap.publicHostname=components.%DOMAIN% --set=api-operator-istio.deployment.httpsRedirect=false --set=canvas-info-service.serverUrl=https://canvas-info.%DOMAIN% --set=canvas-vault.enabled=false 
 ```
 
 ```
