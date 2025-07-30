@@ -11,7 +11,7 @@ sudo apt install certbot
 mkdir -p ~/certs
 cd ~/certs
 
-export DOMAIN=ihc-dt2.cluster-2.de
+export DOMAIN=ihc-dt.cluster-2.de
 export LETSENCRYPT_EMAIL=xxx...@...yyy.zz
 export TLS_SECRET_NAME=domain-tls-secret
 

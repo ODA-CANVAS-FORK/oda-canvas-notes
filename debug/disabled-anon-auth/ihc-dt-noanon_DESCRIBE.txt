@@ -1,0 +1,214 @@
+addonsConfig:
+  gcePersistentDiskCsiDriverConfig:
+    enabled: true
+  horizontalPodAutoscaling: {}
+  httpLoadBalancing: {}
+  kubernetesDashboard:
+    disabled: true
+  networkPolicyConfig:
+    disabled: true
+anonymousAuthenticationConfig:
+  mode: LIMITED
+autopilot: {}
+autoscaling:
+  autoscalingProfile: BALANCED
+binaryAuthorization:
+  evaluationMode: DISABLED
+clusterIpv4Cidr: 10.8.0.0/14
+controlPlaneEndpointsConfig:
+  dnsEndpointConfig:
+    allowExternalTraffic: false
+    endpoint: gke-a2361b9084624c0a98a960d18140bec213fe-273015080502.europe-west4-c.gke.goog
+  ipEndpointsConfig:
+    authorizedNetworksConfig:
+      gcpPublicCidrsAccessEnabled: false
+    enablePublicEndpoint: true
+    enabled: true
+    privateEndpoint: 10.164.0.44
+    publicEndpoint: 35.204.198.104
+createTime: '2025-07-29T11:57:58+00:00'
+currentMasterVersion: 1.33.2-gke.1111000
+currentNodeCount: 1
+currentNodeVersion: 1.33.2-gke.1111000
+databaseEncryption:
+  currentState: CURRENT_STATE_DECRYPTED
+  state: DECRYPTED
+defaultMaxPodsConstraint:
+  maxPodsPerNode: '110'
+endpoint: 35.204.198.104
+enterpriseConfig:
+  clusterTier: STANDARD
+  desiredTier: STANDARD
+etag: 438d28c6-9e83-402d-8fc0-26f59d0f7a43
+id: a2361b9084624c0a98a960d18140bec213feb30b37db4425b1f9a27646b24532
+initialClusterVersion: 1.33.2-gke.1111000
+instanceGroupUrls:
+- https://www.googleapis.com/compute/v1/projects/tmforum-oda-component-cluster/zones/europe-west4-c/instanceGroupManagers/gke-ihc-dt-noanon-default-pool-9ad2b004-grp
+ipAllocationPolicy:
+  clusterIpv4Cidr: 10.8.0.0/14
+  clusterIpv4CidrBlock: 10.8.0.0/14
+  clusterSecondaryRangeName: gke-ihc-dt-noanon-pods-a2361b90
+  defaultPodIpv4RangeUtilization: 0.001
+  podCidrOverprovisionConfig: {}
+  servicesIpv4Cidr: 34.118.224.0/20
+  servicesIpv4CidrBlock: 34.118.224.0/20
+  stackType: IPV4
+  useIpAliases: true
+labelFingerprint: a9dc16a7
+legacyAbac: {}
+location: europe-west4-c
+locations:
+- europe-west4-c
+loggingConfig:
+  componentConfig:
+    enableComponents:
+    - SYSTEM_COMPONENTS
+    - WORKLOADS
+loggingService: logging.googleapis.com/kubernetes
+maintenancePolicy:
+  resourceVersion: e3b0c442
+masterAuth:
+  clientCertificateConfig: {}
+  clusterCaCertificate: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVMRENDQXBTZ0F3SUJBZ0lRTkwvYnc2bGQ4SzVkNHJ2dUdkMVRlREFOQmdrcWhraUc5dzBCQVFzRkFEQXYKTVMwd0t3WURWUVFERXlReU5qUTRPVEptTUMwellqUXhMVFEzTlRBdE9EWXlNaTAyTUdFeFpqWXpObUUwWVdNdwpJQmNOTWpVd056STVNVEExTnpVNVdoZ1BNakExTlRBM01qSXhNVFUzTlRsYU1DOHhMVEFyQmdOVkJBTVRKREkyCk5EZzVNbVl3TFROaU5ERXRORGMxTUMwNE5qSXlMVFl3WVRGbU5qTTJZVFJoWXpDQ0FhSXdEUVlKS29aSWh2Y04KQVFFQkJRQURnZ0dQQURDQ0FZb0NnZ0dCQU01dVJPQjB0TTJqY2p5enB0OE5ObXRGWTVOeWNha2N0OXMrV1BsRwo5Tjd5WHJEWitGY252RXBTVVU4bWpzRjhRU0ZyTHV1MzFuajZIbjdTbzZ3R3RCbnd2UUtkZFRYYTNSK1hhSXhsClF0MWp4eTBCbktvWGswd3ltSFY2RWNZUmppL2Z1K3F2ZnZLcGhkMmlyV3NIT1RFZmdVMllrdzQxajBHSnZRdW8Kdm5zMk1BRkluMVhaT0lNOUxINDQxYUc3MkhUTGl0UHIydWhhUWM5VWx1WjNNbkMrZThIZ1lXSHFya3czWTRsNgoxQ3hiVEhVV0hxeXhrYWNLNURhZmVsLzY4SVZreFd5S210OTZWMisrdjZhUTdDazVNK1VheFExMTF4MmNwMjk0ClBiZ0lReGxSMERoOEw2MTZ2dDlmOXlNWDRjVCtPYXlFOHJGdTdJRDJrSVJjbmdSclFTdk5OSFNVY2NhWSt5YmgKWVJtWXZyS2s4dVpCaTIzR3N6VjNmSWM0ZTVWYlZ5MXc0RHMvOHAxVjJpNTZCTjIrelY0L0RNRWZXdmNEazRWWAp1emVYcTN5clYwZmxXdHdGaWVOaXprMTR4N1ZEL1JaS1h3NXdMYVhlSGlERDV6QXExRlR0SFgxdXo4azNydTcvCkRmYzk5WXdEQUlYbjJHUHpmeVhPQkxQSm5RSURBUUFCbzBJd1FEQU9CZ05WSFE4QkFmOEVCQU1DQWdRd0R3WUQKVlIwVEFRSC9CQVV3QXdFQi96QWRCZ05WSFE0RUZnUVUyMHpTN3QyREpDd291OTF3dFNZcGtXOHJhR2d3RFFZSgpLb1pJaHZjTkFRRUxCUUFEZ2dHQkFGMjhOVlpFaWhKbk1rMHR2TE81bk80M0V2T1VQSkhESlJzZVVYTWFiR2VtCmxZV05XMlpwODlPNm93RFFYdFRPalF3djZsSy96SGRXMmdVdGFvT2l4bnd0dFFUME13eUsyMHFSbnl5ZFkrZDUKdkloa3VlTTFpenoydlcwNml2dUVOczc1SlY1QTh2Vk9qdWRQVjE4SXdINlc2enVORlZ0OENNU1luWkJ5TEFEbwpBWk1FMGhVcE9xZkdSWFNYMnRVUzhSOGJveWZqdjh5NW56QzZXRGszNXJZTGM3UHVCaXM5R1JROWdwUDV2YzRvClJjd0ZwWVFoT3NtbElLOGlSNjlYampHbzhnc2R0ekl2WXBuZXdyZk05Rk9zS2d0dDBqNHNyNVg3QXE4ek5vZ2cKOG45Sjh6UmdYMnh6cnNGZnd5cFpVSTZkZHBtay94clNweVdiNlpLekpBMU5GVjJrZDNRTERDbWxnUG9rRFBsRwpkZlZSVXZHVGNXZ0F3dStDclc3Y0lGYlkzWUJqbjRxK3p0am1OU3pxMVE5aVdBVHB3ZklpMmh1RnlIaUtZdzBzCnZmWHJuU0hmcWQ2cXkxYjF3Rzh5TXNLdHIvOEJqV1F3UVJHem1FL1Zla0FhMmpQcWVpTUowMGhGNXRKUzFBMGwKYWhPYXlyeWZpd3JJYkNHckJUbUdsdz09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+masterAuthorizedNetworksConfig:
+  gcpPublicCidrsAccessEnabled: false
+monitoringConfig:
+  advancedDatapathObservabilityConfig: {}
+  componentConfig:
+    enableComponents:
+    - SYSTEM_COMPONENTS
+    - STORAGE
+    - HPA
+    - POD
+    - DAEMONSET
+    - DEPLOYMENT
+    - STATEFULSET
+    - CADVISOR
+    - KUBELET
+    - DCGM
+    - JOBSET
+  managedPrometheusConfig:
+    enabled: true
+monitoringService: monitoring.googleapis.com/kubernetes
+name: ihc-dt-noanon
+network: default
+networkConfig:
+  defaultSnatStatus: {}
+  network: projects/tmforum-oda-component-cluster/global/networks/default
+  serviceExternalIpsConfig: {}
+  subnetwork: projects/tmforum-oda-component-cluster/regions/europe-west4/subnetworks/default
+nodeConfig:
+  bootDisk:
+    diskType: pd-standard
+    sizeGb: '100'
+  diskSizeGb: 100
+  diskType: pd-standard
+  effectiveCgroupMode: EFFECTIVE_CGROUP_MODE_V2
+  imageType: COS_CONTAINERD
+  kubeletConfig:
+    insecureKubeletReadonlyPortEnabled: false
+    maxParallelImagePulls: 2
+  machineType: e2-standard-4
+  metadata:
+    disable-legacy-endpoints: 'true'
+  oauthScopes:
+  - https://www.googleapis.com/auth/devstorage.read_only
+  - https://www.googleapis.com/auth/logging.write
+  - https://www.googleapis.com/auth/monitoring
+  - https://www.googleapis.com/auth/service.management.readonly
+  - https://www.googleapis.com/auth/servicecontrol
+  - https://www.googleapis.com/auth/trace.append
+  resourceLabels:
+    goog-gke-node-pool-provisioning-model: on-demand
+  serviceAccount: default
+  shieldedInstanceConfig:
+    enableIntegrityMonitoring: true
+  windowsNodeConfig: {}
+nodePoolAutoConfig:
+  nodeKubeletConfig:
+    insecureKubeletReadonlyPortEnabled: false
+nodePoolDefaults:
+  nodeConfigDefaults:
+    loggingConfig:
+      variantConfig:
+        variant: DEFAULT
+    nodeKubeletConfig:
+      insecureKubeletReadonlyPortEnabled: false
+nodePools:
+- autoscaling: {}
+  config:
+    bootDisk:
+      diskType: pd-standard
+      sizeGb: '100'
+    diskSizeGb: 100
+    diskType: pd-standard
+    effectiveCgroupMode: EFFECTIVE_CGROUP_MODE_V2
+    imageType: COS_CONTAINERD
+    kubeletConfig:
+      insecureKubeletReadonlyPortEnabled: false
+      maxParallelImagePulls: 2
+    machineType: e2-standard-4
+    metadata:
+      disable-legacy-endpoints: 'true'
+    oauthScopes:
+    - https://www.googleapis.com/auth/devstorage.read_only
+    - https://www.googleapis.com/auth/logging.write
+    - https://www.googleapis.com/auth/monitoring
+    - https://www.googleapis.com/auth/service.management.readonly
+    - https://www.googleapis.com/auth/servicecontrol
+    - https://www.googleapis.com/auth/trace.append
+    resourceLabels:
+      goog-gke-node-pool-provisioning-model: on-demand
+    serviceAccount: default
+    shieldedInstanceConfig:
+      enableIntegrityMonitoring: true
+    windowsNodeConfig: {}
+  etag: 49d47b9e-7d53-42ac-9aa3-e73c543e8219
+  initialNodeCount: 1
+  instanceGroupUrls:
+  - https://www.googleapis.com/compute/v1/projects/tmforum-oda-component-cluster/zones/europe-west4-c/instanceGroupManagers/gke-ihc-dt-noanon-default-pool-9ad2b004-grp
+  locations:
+  - europe-west4-c
+  management:
+    autoRepair: true
+    autoUpgrade: true
+  maxPodsConstraint:
+    maxPodsPerNode: '110'
+  name: default-pool
+  networkConfig:
+    podIpv4CidrBlock: 10.8.0.0/14
+    podIpv4RangeUtilization: 0.001
+    podRange: gke-ihc-dt-noanon-pods-a2361b90
+    subnetwork: projects/tmforum-oda-component-cluster/regions/europe-west4/subnetworks/default
+  podIpv4CidrSize: 24
+  selfLink: https://container.googleapis.com/v1/projects/tmforum-oda-component-cluster/zones/europe-west4-c/clusters/ihc-dt-noanon/nodePools/default-pool
+  status: RUNNING
+  upgradeSettings:
+    maxSurge: 1
+    strategy: SURGE
+  version: 1.33.2-gke.1111000
+notificationConfig:
+  pubsub: {}
+podAutoscaling:
+  hpaProfile: HPA_PROFILE_UNSPECIFIED
+privateClusterConfig:
+  privateEndpoint: 10.164.0.44
+  publicEndpoint: 35.204.198.104
+rbacBindingConfig:
+  enableInsecureBindingSystemAuthenticated: true
+  enableInsecureBindingSystemUnauthenticated: true
+releaseChannel:
+  channel: REGULAR
+satisfiesPzi: true
+satisfiesPzs: false
+securityPostureConfig:
+  mode: BASIC
+  vulnerabilityMode: VULNERABILITY_DISABLED
+selfLink: https://container.googleapis.com/v1/projects/tmforum-oda-component-cluster/zones/europe-west4-c/clusters/ihc-dt-noanon
+servicesIpv4Cidr: 34.118.224.0/20
+shieldedNodes:
+  enabled: true
+status: RUNNING
+subnetwork: default
+userManagedKeysConfig: {}
+zone: europe-west4-c

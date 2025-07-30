@@ -45,9 +45,9 @@ npm install
 export KEYCLOAK_USER=admin 
 export KEYCLOAK_PASSWORD=adpass 
 export KEYCLOAK_BASE_URL=http://canvas-keycloak.canvas.svc.cluster.local:8083/auth/ 
-export KEYCLOAK_REALM=myrealm
+export KEYCLOAK_REALM=odari
 
-export CUCUMBER_PUBLISH_TOKEN=c98985ee-d612-48db-9e21-12c41e84a639
+#export CUCUMBER_PUBLISH_TOKEN=c98985ee-d612-48db-9e21-12c41e84a639
 
 npm start
 ```
