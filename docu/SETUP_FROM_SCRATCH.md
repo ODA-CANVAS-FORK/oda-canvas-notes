@@ -89,16 +89,29 @@ helm repo update
 
 #initial call without --skip-refresh
 
+helm dependency update ./charts/cert-manager-init
+helm dependency update ./charts/kong-gateway
+helm dependency update ./charts/apisix-gateway
+helm dependency update ./charts/canvas-vault
+helm dependency update ./charts/pdb-management-operator
+helm dependency update ./charts/canvas-oda
+
 helm dependency update --skip-refresh ./charts/cert-manager-init
-#helm dependency update --skip-refresh ./charts/canvas-api-gateway/combined-api-gateway-chart
 helm dependency update --skip-refresh ./charts/kong-gateway
 helm dependency update --skip-refresh ./charts/apisix-gateway
 helm dependency update --skip-refresh ./charts/canvas-vault
+helm dependency update --skip-refresh ./charts/pdb-management-operator
 helm dependency update --skip-refresh ./charts/canvas-oda
 
 helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set api-operator-istio.deployment.hostName=*.ihc-dt.cluster-3.de --set api-operator-istio.deployment.credentialName=wc-ihc-dt-cluster-3-de-tls --set api-operator-istio.configmap.publicHostname=components.ihc-dt.cluster-3.de
+
 ```
 
+Bitnami issues
+
+```
+helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set api-operator-istio.deployment.hostName=*.ihc-dt.cluster-3.de --set api-operator-istio.deployment.credentialName=wc-ihc-dt-cluster-3-de-tls --set api-operator-istio.configmap.publicHostname=components.ihc-dt.cluster-3.de --set keycloakConfigCli.image.repository=docker.io/bitnamilegacy/keycloak-config-cli
+```
 
 # add optional deployments
 

@@ -43,6 +43,33 @@ helm repo update
 helm upgrade --install canvas oda-canvas/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set api-operator-istio.deployment.hostName=*.$DOMAIN --set api-operator-istio.deployment.credentialName=$TLS_SECRET_NAME --set api-operator-istio.configmap.publicHostname=components.$DOMAIN --set=api-operator-istio.deployment.httpsRedirect=false --set=canvas-info-service.serverUrl=https://canvas-info.$DOMAIN
 ```
 
+windows
+
+```
+helm upgrade --install canvas oda-canvas/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set api-operator-istio.deployment.hostName=*.%DOMAIN% --set api-operator-istio.deployment.credentialName=%TLS_SECRET_NAME% --set api-operator-istio.configmap.publicHostname=components.%DOMAIN% --set=api-operator-istio.deployment.httpsRedirect=false --set=canvas-info-service.serverUrl=https://canvas-info.%DOMAIN%
+
+```
+
+## deploy canvas from filesystem
+
+```
+cd ~/git/oda-canvas
+
+helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set api-operator-istio.deployment.hostName=*.$DOMAIN --set api-operator-istio.deployment.credentialName=$TLS_SECRET_NAME --set api-operator-istio.configmap.publicHostname=components.$DOMAIN --set=api-operator-istio.deployment.httpsRedirect=false --set=canvas-info-service.serverUrl=https://canvas-info.$DOMAIN
+```
+
+windows
+
+```
+set DOMAIN=ihc-dt.cluster-2.de
+set TLS_SECRET_NAME=domain-tls-secret
+
+cd %USERPROFILE%/git/oda-canvas
+
+helm upgrade --install canvas charts/canvas-oda -n canvas --create-namespace --set keycloak.service.type=ClusterIP --set api-operator-istio.deployment.hostName=*.%DOMAIN% --set api-operator-istio.deployment.credentialName=%TLS_SECRET_NAME% --set api-operator-istio.configmap.publicHostname=components.%DOMAIN% --set=api-operator-istio.deployment.httpsRedirect=false --set=canvas-info-service.serverUrl=https://canvas-info.%DOMAIN% --set=keycloak.keycloakConfigCli.image.repository=bitnamilegacy/keycloak-config-cli
+
+```
+
 
 ## deploy product catalog
 
@@ -67,7 +94,7 @@ https://components.*****.cluster-2.de/pcat1-productcatalogmanagement/tmf-api/pro
 mkdir -p ~/git
 cd ~/git
 git clone https://github.com/ODA-CANVAS-FORK/oda-canvas-notes
-helm upgrade --install -n canvas canvas-vs oda-canvas-notes/virtualservices/canvas --set=domain=$DOMAIN  --set=componentGateway=components/component-gateway
+helm upgrade --install -n canvas canvas-vs oda-canvas-notes/virtualservices/canvas --set=domain=$DOMAIN  --set=componentGateway=canvas/component-gateway
 ```
 
 
@@ -75,7 +102,7 @@ helm upgrade --install -n canvas canvas-vs oda-canvas-notes/virtualservices/canv
 
 ```
 cd ~/git
-helm upgrade --install -n default other-vs oda-canvas-notes/virtualservices/others --set=domain=$DOMAIN --set=componentGateway=components/component-gateway
+helm upgrade --install -n default other-vs oda-canvas-notes/virtualservices/others --set=domain=$DOMAIN --set=componentGateway=canvas/component-gateway
 ```
 
 
