@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  labels:
+    app: monitoring-prometheus
+  name: monitoring-prometheus-vs
+  namespace: canvas
+spec:
+  gateways:
+  - {{ .Values.componentGateway }}
+  hosts:
+  - monitoring-prometheus.{{ .Values.domain }}
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: observability-prometheus-prometheus.monitoring.svc.cluster.local
+        port:
+          number: 9090

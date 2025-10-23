@@ -81,14 +81,41 @@ def html_img():
 
 @app.route("/echo", methods=["POST"])
 def echo():
-    print("----------")
+    print("---------- echo")
     echo_header = {}
     for h in request.headers:
         print(f"{h[0]}: {h[1]}")
         echo_header[h[0]] = h[1]
     print("----------")
     if request.is_json:
-        print(request.json)
+        print(json.dumps(request.json, indent=2))
+        echo_body = json.dumps(request.json)
+        if request.json.get("resource") and isinstance(request.json.get("resource"), str):
+            print("FOUND RESOURCE:")
+            print(json.dumps(json.loads(request.json.get("resource")), indent=2))
+    else:
+        print(request.form)
+        echo_body = request.data.decode()
+    print("----------")
+    now = timestamp=datetime.datetime.now().isoformat('T')
+    response = {
+        "echo_header": echo_header,
+        "echo_body": echo_body, 
+        "timestamp": now
+    }
+    
+    return jsonify(response)
+
+@app.route("/echoauth", methods=["POST"])
+def echoauth():
+    print("---------- echoauth")
+    echo_header = {}
+    for h in request.headers:
+        print(f"{h[0]}: {h[1]}")
+        echo_header[h[0]] = h[1]
+    print("----------")
+    if request.is_json:
+        print(json.dumps(request.json, indent=2))
         echo_body = json.dumps(request.json)
     else:
         print(request.form)
@@ -169,7 +196,7 @@ if __name__ == "__main__":
     #debugpy.wait_for_client()
     #pydevd.settrace();
     host = os.getenv("WEBAPPIP", "0.0.0.0")
-    port = os.getenv("WEBAPPPORT", "8080")
+    port = os.getenv("WEBAPPPORT", "8081")
     print(f'STARTING {host} at port {port}') 
     
     #debugpy.breakpoint()

@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  labels:
+    app: monitoring-jaeger
+  name: monitoring-jaeger-vs
+  namespace: canvas
+spec:
+  gateways:
+  - {{ .Values.componentGateway }}
+  hosts:
+  - monitoring-jaeger.{{ .Values.domain }}
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: observability-jaeger-query.monitoring.svc.cluster.local
+        port:
+          number: 16686

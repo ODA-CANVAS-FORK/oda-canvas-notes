@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  labels:
+    app: monitoring-grafana
+  name: monitoring-grafana-vs
+  namespace: canvas
+spec:
+  gateways:
+  - {{ .Values.componentGateway }}
+  hosts:
+  - monitoring-grafana.{{ .Values.domain }}
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: observability-grafana.monitoring.svc.cluster.local
+        port:
+          number: 80
