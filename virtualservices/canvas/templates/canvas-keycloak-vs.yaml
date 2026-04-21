@@ -16,9 +16,9 @@ spec:
         prefix: /
     route:
     - destination:
-        host: canvas-keycloak.canvas.svc.cluster.local
+        host: {{ .Values.keycloakVS.host }}
         port:
-          number: 8083
+          number: {{ .Values.keycloakVS.port }}
       #headers:
       #  request:
       #    set:

@@ -10,6 +10,8 @@ helm repo add istio https://istio-release.storage.googleapis.com/charts
 helm repo update
 helm install istio-base istio/base -n istio-system  --create-namespace
 helm install istiod istio/istiod -n istio-system --wait
+# for a minimal install reduce cpu and memory request of istiod:
+# helm install istiod istio/istiod -n istio-system --set=resources.requests.cpu=50m --set=resources.requests.memory=256Mi --wait
 kubectl create namespace istio-ingress
 kubectl label namespace istio-ingress istio-injection=enabled
 helm install istio-ingress istio/gateway -n istio-ingress --set labels.app=istio-ingress --set labels.istio=ingressgateway --wait

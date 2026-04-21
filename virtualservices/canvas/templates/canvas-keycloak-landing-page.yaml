@@ -14,7 +14,7 @@ data:
         <H1>Keycloak (Landing)</H1>
         <p>The admin password is:</p>
         <p> <span style="border: 1px solid black;padding:2;">$LOGIN_TOKEN</span> </p>
-        <p>Continue to <a href="/auth">Keycloak login</a></p>
+        <p>Continue to <a href="$LOGIN_PATH">Keycloak login</a></p>
       </BODY>
     </HTML>
     EOF
@@ -60,8 +60,10 @@ spec:
           - name: LOGIN_TOKEN
             valueFrom:
               secretKeyRef:
-                name: canvas-keycloak
-                key: admin-password
+                name: "{{ .Values.keycloakVS.adminPwdSecretName }}"
+                key: "{{ .Values.keycloakVS.adminPwdSecretKey }}"
+          - name: LOGIN_PATH
+            value: {{ .Values.keycloakVS.loginPath }}
           volumeMounts:
           - name: init-script
             mountPath: /docker-entrypoint.d/init
@@ -86,7 +88,7 @@ spec:
   http:
   - match:
     - uri:
-        exact: /
+        exact: {{ .Values.keycloakVS.landigpagePrefix }}
     route:
     - destination:
         host: canvas-keycloak-landing-page.canvas.svc.cluster.local
