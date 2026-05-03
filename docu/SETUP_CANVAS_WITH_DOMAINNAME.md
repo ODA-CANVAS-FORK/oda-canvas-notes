@@ -97,12 +97,20 @@ git clone https://github.com/ODA-CANVAS-FORK/oda-canvas-notes
 helm upgrade --install -n canvas canvas-vs oda-canvas-notes/virtualservices/canvas --set=domain=$DOMAIN  --set=componentGateway=canvas/component-gateway
 ```
 
+## install standalone istio gateway
+
+```
+helm upgrade --install ihcdta-gateway -n istio-gateway --create-namespace demos/multi-canvas-service-discovery/helm/canvas-component-gateway --set=domain=%DOMAIN%
+```
+
 
 ## install other virtual services
 
 ```
 cd ~/git
 helm upgrade --install -n default other-vs oda-canvas-notes/virtualservices/others --set=domain=$DOMAIN --set=componentGateway=canvas/component-gateway
+# standalone WIN: 
+# helm upgrade --install -n default other-vs ../oda-canvas-notes/virtualservices/others --set=domain=%DOMAIN% --set=componentGateway=istio-gateway/ihcdta-gateway
 ```
 
 
