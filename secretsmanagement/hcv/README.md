@@ -60,7 +60,7 @@ $ curl -H "X-Vault-Request: true"  $VAULT_ADDR/v1/sys/seal-status
 export JSON_RESULT=$(curl -s -X PUT -H "X-Vault-Request: true" -d '{"secret_shares":1,"secret_threshold":1}' https://hcv.ihc-dt.cluster-3.de/v1/sys/init)
 echo $JSON_RESULT | jq .
 
-    {"keys":["e0a37ca4246048011037cf9fc24a0de4223e5c62e870fbe3452a73cb1e8742df"],"keys_base64":["4KN8pCRgSAEQN8+fwkoN5CI+XGLocPvjRSpzyx6HQt8="],"root_token":"hvs.5Df...LER"}
+    {"keys":["e0a37ca4246048011037cf9fc24a0de4223e5c62e870fbe3452a73cb1e8742df"],"keys_base64":["4KN...Qt8="],"root_token":"hvs.5Df...LER"}
 ```
 
 retrieve token and key
